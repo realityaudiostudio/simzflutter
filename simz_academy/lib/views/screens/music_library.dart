@@ -5,14 +5,14 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 import '../UIHelper/home_ui_helper.dart';
 import 'bottom_nav.dart';
 
-class TestSearchScreen extends StatefulWidget {
-  const TestSearchScreen({super.key});
+class MusicLibraryScreen extends StatefulWidget {
+  const MusicLibraryScreen({super.key});
 
   @override
-  State<TestSearchScreen> createState() => _TestSearchScreenState();
+  State<MusicLibraryScreen> createState() => _MusicLibraryScreenState();
 }
 
-class _TestSearchScreenState extends State<TestSearchScreen> {
+class _MusicLibraryScreenState extends State<MusicLibraryScreen> {
   final SupabaseClient _supabase = Supabase.instance.client;
   final TextEditingController _searchController = TextEditingController();
   List<dynamic> _videoData = [];

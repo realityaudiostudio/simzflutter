@@ -8,8 +8,8 @@ import 'package:simz_academy/views/screens/practise_screen.dart';
 import 'package:simz_academy/views/screens/sheet_screen.dart';
 //import 'package:simz_academy/screens/syllabus_screen.dart';
 import 'package:simz_academy/views/screens/syllabus_select_screen.dart';
-import 'package:simz_academy/views/screens/test_search_screen.dart';
-import 'package:simz_academy/views/screens/test_video_player.dart';
+//import 'package:simz_academy/views/screens/test_search_screen.dart';
+//import 'package:simz_academy/views/screens/test_video_player.dart';
 import 'package:simz_academy/views/widgets/home_screen_widgets.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -178,9 +178,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                   ),
                                   IconButton(
                                     onPressed: () {
-                                      Navigator.of (context).push(MaterialPageRoute(builder: (context){
-                                        return TestSearchScreen();
-                                      },),);
+
                                     },
                                     icon: const Icon(
                                       Iconsax.music_playlist,
@@ -221,11 +219,6 @@ class _HomeScreenState extends State<HomeScreen> {
                                         ),
                                       ),
                                     ),
-                                    onLongPress: () {
-                                      Navigator.of(context).push(MaterialPageRoute(builder: (context){
-                                        return TestVideoPlayer();
-                                      },),);
-                                    },
                                     onPressed: () {
                                       showDialog(
                                         context: context,
