@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:simz_academy/consumers/qr_consumer.dart';
+import 'package:simz_academy/models/consumers/qr_consumer.dart';
 
 class QrScreen extends StatelessWidget {
   const QrScreen({super.key});

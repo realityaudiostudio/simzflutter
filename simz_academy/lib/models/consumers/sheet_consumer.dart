@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:simz_academy/UIHelper/home_ui_helper.dart';
-import 'package:simz_academy/providers/sheet_provider.dart';
+import 'package:simz_academy/views/UIHelper/home_ui_helper.dart';
+import 'package:simz_academy/models/providers/sheet_provider.dart';
 
 /// A consumer widget that displays a list of sheets.
 /// A widget that consumes a sheet.

@@ -3,7 +3,7 @@
 import 'package:flutter/material.dart';
 //import 'package:shared_preferences/shared_preferences.dart';
 //import 'package:simz_academy/screens/bottom_nav.dart';
-import 'package:simz_academy/screens/redirect_page.dart';
+import 'package:simz_academy/views/screens/redirect_page.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 const supaBaseUrl = 'https://nsnsqbbmcjzjadfrsieo.supabase.co';

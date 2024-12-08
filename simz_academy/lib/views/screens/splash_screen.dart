@@ -1,10 +1,10 @@
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
-import 'package:simz_academy/UIHelper/home_ui_helper.dart';
-import 'package:simz_academy/screens/bottom_nav.dart';
+import 'package:simz_academy/views/UIHelper/home_ui_helper.dart';
+import 'package:simz_academy/views/screens/bottom_nav.dart';
 //import 'package:simz_academy/screens/bottom_nav.dart';
-import 'package:simz_academy/screens/login_screen.dart';
-import 'package:simz_academy/screens/no_internet.dart';
+import 'package:simz_academy/views/screens/login_screen.dart';
+import 'package:simz_academy/views/screens/no_internet.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 // ignore: must_be_immutable

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:simz_academy/UIHelper/home_ui_helper.dart';
-import 'package:simz_academy/providers/syllabus_provider.dart';
+import 'package:simz_academy/views/UIHelper/home_ui_helper.dart';
+import 'package:simz_academy/models/providers/syllabus_provider.dart';
 
 /// A consumer widget that displays the syllabus data fetched from the [syllabusProvider].
 ///

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:simz_academy/UIHelper/home_ui_helper.dart';
-import 'package:simz_academy/functions/show_alert.dart';
-import 'package:simz_academy/providers/quiz_provider.dart';
+import 'package:simz_academy/views/UIHelper/home_ui_helper.dart';
+import 'package:simz_academy/controllers/functions/show_alert.dart';
+import 'package:simz_academy/models/providers/quiz_provider.dart';
 //import 'package:simz_academy/screens/quizizz_page.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 

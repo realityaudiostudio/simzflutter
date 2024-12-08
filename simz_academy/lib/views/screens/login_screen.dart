@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:simz_academy/widgets/login_widgets.dart';
+import 'package:simz_academy/views/widgets/login_widgets.dart';
 
 
 class LoginScreen extends StatefulWidget {

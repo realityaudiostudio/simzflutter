@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
-import 'package:simz_academy/UIHelper/home_ui_helper.dart';
-import 'package:simz_academy/consumers/sheet_consumer.dart';
+import 'package:simz_academy/views/UIHelper/home_ui_helper.dart';
+import 'package:simz_academy/models/consumers/sheet_consumer.dart';
 
 class SheetScreen extends StatelessWidget {
   const SheetScreen({super.key});

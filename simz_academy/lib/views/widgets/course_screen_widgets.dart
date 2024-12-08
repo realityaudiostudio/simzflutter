@@ -6,10 +6,10 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:iconsax_plus/iconsax_plus.dart';
-import 'package:simz_academy/UIHelper/course_ui_helper.dart';
-import 'package:simz_academy/functions/show_alert.dart';
-import 'package:simz_academy/screens/course_details.dart';
-import 'package:simz_academy/screens/qr_screen.dart';
+import 'package:simz_academy/views/UIHelper/course_ui_helper.dart';
+import 'package:simz_academy/controllers/functions/show_alert.dart';
+import 'package:simz_academy/views/screens/course_details.dart';
+import 'package:simz_academy/views/screens/qr_screen.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 import '../UIHelper/home_ui_helper.dart';

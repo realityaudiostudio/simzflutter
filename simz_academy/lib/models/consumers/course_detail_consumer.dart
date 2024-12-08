@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:simz_academy/UIHelper/home_ui_helper.dart';
-import 'package:simz_academy/providers/course_detail_provider.dart';
+import 'package:simz_academy/views/UIHelper/home_ui_helper.dart';
+import 'package:simz_academy/models/providers/course_detail_provider.dart';
 
 class CourseDetailConsumer extends ConsumerWidget {
   const CourseDetailConsumer({super.key});

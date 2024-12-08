@@ -17,9 +17,9 @@ library;
 
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
-import 'package:simz_academy/UIHelper/home_ui_helper.dart';
-import 'package:simz_academy/consumers/syllabus_consumer.dart';
-import 'package:simz_academy/screens/bottom_nav.dart';
+import 'package:simz_academy/views/UIHelper/home_ui_helper.dart';
+import 'package:simz_academy/models/consumers/syllabus_consumer.dart';
+import 'package:simz_academy/views/screens/bottom_nav.dart';
 
 class SyllabusScreen extends StatelessWidget {
   /// Creates a new [SyllabusScreen] instance.

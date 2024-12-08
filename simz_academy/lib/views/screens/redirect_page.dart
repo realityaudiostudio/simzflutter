@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:simz_academy/screens/bottom_nav.dart';
+import 'package:simz_academy/views/screens/bottom_nav.dart';
 //import 'package:simz_academy/screens/home_screen.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 

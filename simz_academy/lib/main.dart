@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:simz_academy/constants/supabase_functions.dart';
-import 'package:simz_academy/screens/splash_screen.dart';
+import 'package:simz_academy/controllers/constants/supabase_functions.dart';
+import 'package:simz_academy/views/screens/splash_screen.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 

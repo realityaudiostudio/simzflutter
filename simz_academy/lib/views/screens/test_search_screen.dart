@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
-import '../MediaPlayers/video_player.dart';
+import 'package:simz_academy/controllers/MediaPlayers/video_player.dart';
 
 class TestSearchScreen extends StatefulWidget {
   const TestSearchScreen({super.key});

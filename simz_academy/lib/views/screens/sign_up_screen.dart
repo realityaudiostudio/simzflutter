@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:simz_academy/constants/screen_details.dart';
+import 'package:simz_academy/controllers/constants/screen_details.dart';
 
 import '../widgets/signup_widgets.dart';
 

@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:iconsax/iconsax.dart';
-import 'package:simz_academy/UIHelper/home_ui_helper.dart';
-import 'package:simz_academy/constants/screen_details.dart';
-import 'package:simz_academy/constants/supabase_functions.dart';
-import 'package:simz_academy/screens/bottom_nav.dart';
-import 'package:simz_academy/screens/forgot_password.dart';
-import 'package:simz_academy/screens/sign_up_screen.dart';
+import 'package:simz_academy/views/UIHelper/home_ui_helper.dart';
+import 'package:simz_academy/controllers/constants/screen_details.dart';
+import 'package:simz_academy/controllers/constants/supabase_functions.dart';
+import 'package:simz_academy/views/screens/bottom_nav.dart';
+import 'package:simz_academy/views/screens/forgot_password.dart';
+import 'package:simz_academy/views/screens/sign_up_screen.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 class LoginSmallScreen extends StatefulWidget {

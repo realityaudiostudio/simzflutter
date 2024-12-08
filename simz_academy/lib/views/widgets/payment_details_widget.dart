@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:simz_academy/UIHelper/home_ui_helper.dart';
-import 'package:simz_academy/constants/supabase_functions.dart';
+import 'package:simz_academy/views/UIHelper/home_ui_helper.dart';
+import 'package:simz_academy/controllers/constants/supabase_functions.dart';
 
 Widget paymentDetailsWidget (String courseName , String coursePrice) {
   return Center(

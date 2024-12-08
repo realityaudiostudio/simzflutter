@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
 //import 'package:iconsax_plus/iconsax_plus.dart';
-import 'package:simz_academy/UIHelper/course_ui_helper.dart';
-import 'package:simz_academy/UIHelper/home_ui_helper.dart';
-import 'package:simz_academy/screens/bottom_nav.dart';
-import 'package:simz_academy/widgets/common_widgets.dart';
-import 'package:simz_academy/widgets/course_screen_widgets.dart';
+import 'package:simz_academy/views/UIHelper/course_ui_helper.dart';
+import 'package:simz_academy/views/UIHelper/home_ui_helper.dart';
+import 'package:simz_academy/views/screens/bottom_nav.dart';
+import 'package:simz_academy/views/widgets/common_widgets.dart';
+import 'package:simz_academy/views/widgets/course_screen_widgets.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 String imagepath = "lib/assets/images/course2.png";

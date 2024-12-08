@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../MediaPlayers/video_player.dart';
+import 'package:simz_academy/controllers/MediaPlayers/video_player.dart';
 import '../providers/test_video_provider.dart';
 
 class TestVideoConsumer extends ConsumerWidget {

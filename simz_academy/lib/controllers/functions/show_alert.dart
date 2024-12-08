@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:simz_academy/UIHelper/home_ui_helper.dart';
+import 'package:simz_academy/views/UIHelper/home_ui_helper.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 void showAlertBox(BuildContext context, String url){

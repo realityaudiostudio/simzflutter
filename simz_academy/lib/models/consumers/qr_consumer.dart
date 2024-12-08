@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:iconsax/iconsax.dart';
-import 'package:simz_academy/UIHelper/home_ui_helper.dart';
+import 'package:simz_academy/views/UIHelper/home_ui_helper.dart';
 import 'package:barcode_widget/barcode_widget.dart'; // Add this import for BarcodeWidget
 
 import '../providers/qr_provider.dart';

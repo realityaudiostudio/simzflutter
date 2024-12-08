@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:simz_academy/consumers/test_video_consumer.dart';
+import 'package:simz_academy/models/consumers/test_video_consumer.dart';
 
 class TestVideoPlayer extends StatefulWidget {
   const TestVideoPlayer({super.key});

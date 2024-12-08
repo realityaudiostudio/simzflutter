@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:iconsax/iconsax.dart'; // Ensure you have the iconsax package added in pubspec.yaml
 //import 'package:iconsax_plus/iconsax_plus.dart';
-import 'package:simz_academy/UIHelper/home_ui_helper.dart';
-import 'package:simz_academy/constants/supabase_functions.dart';
-import 'package:simz_academy/screens/bottom_nav.dart';
-import 'package:simz_academy/screens/login_screen.dart';
-import 'package:simz_academy/widgets/common_widgets.dart';
+import 'package:simz_academy/views/UIHelper/home_ui_helper.dart';
+import 'package:simz_academy/controllers/constants/supabase_functions.dart';
+import 'package:simz_academy/views/screens/bottom_nav.dart';
+import 'package:simz_academy/views/screens/login_screen.dart';
+import 'package:simz_academy/views/widgets/common_widgets.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -34,7 +34,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
         }
       }
     } catch (e) {
-      print(e.toString());
+      debugPrint(e.toString());
     }
   }
 

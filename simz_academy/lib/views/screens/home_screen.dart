@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:iconsax_plus/iconsax_plus.dart';
-import 'package:simz_academy/UIHelper/home_ui_helper.dart';
-import 'package:simz_academy/constants/supabase_functions.dart';
-import 'package:simz_academy/screens/quiz_screen.dart';
-import 'package:simz_academy/screens/practise_screen.dart';
-import 'package:simz_academy/screens/sheet_screen.dart';
+import 'package:simz_academy/views/UIHelper/home_ui_helper.dart';
+import 'package:simz_academy/controllers/constants/supabase_functions.dart';
+import 'package:simz_academy/views/screens/quiz_screen.dart';
+import 'package:simz_academy/views/screens/practise_screen.dart';
+import 'package:simz_academy/views/screens/sheet_screen.dart';
 //import 'package:simz_academy/screens/syllabus_screen.dart';
-import 'package:simz_academy/screens/syllabus_select_screen.dart';
-import 'package:simz_academy/screens/test_search_screen.dart';
-import 'package:simz_academy/screens/test_video_player.dart';
-import 'package:simz_academy/widgets/home_screen_widgets.dart';
+import 'package:simz_academy/views/screens/syllabus_select_screen.dart';
+import 'package:simz_academy/views/screens/test_search_screen.dart';
+import 'package:simz_academy/views/screens/test_video_player.dart';
+import 'package:simz_academy/views/widgets/home_screen_widgets.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
