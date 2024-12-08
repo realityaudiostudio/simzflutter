@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
+import '../../controllers/MediaPlayers/video_player.dart';
 import '../UIHelper/home_ui_helper.dart';
 import 'bottom_nav.dart';
 
@@ -283,35 +284,6 @@ class _MusicLibraryScreenState extends State<MusicLibraryScreen> {
               ],
             ),
           ),
-        ),
-      ),
-    );
-  }
-}
-
-class VideoPlayerScreen extends StatelessWidget {
-  final String videoUrl;
-  final String videoDesc;
-
-  const VideoPlayerScreen({
-    super.key,
-    required this.videoUrl,
-    required this.videoDesc,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Video Player'),
-      ),
-      body: Center(
-        child: Column(
-          children: [
-            Text('Video URL: $videoUrl'),
-            const SizedBox(height: 10),
-            Text('Description: $videoDesc'),
-          ],
         ),
       ),
     );

@@ -67,22 +67,20 @@ class _SignUpSmallScreenState extends State<SignUpSmallScreen> {
                   ),
                 ),
                 const SizedBox(height: 5),
-                TextField(
-                    controller: emailController,
-                    decoration: InputDecoration(
-                      filled: true,
-                      fillColor: const Color(0xFFECD7F7),
-                      hintText: 'Enter your email address',
-                      hintStyle: const TextStyle(
-                        color: Color.fromARGB(255, 209, 190, 219),
-                      ),
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10),
-                        borderSide: BorderSide(
-                          color: const Color(0xFF380F43),
+                ClipRRect(
+                  borderRadius: BorderRadius.circular(10),
+                  child: TextField(
+                      controller: emailController,
+                      decoration: InputDecoration(
+                        filled: true,
+                        fillColor: const Color(0xFFECD7F7),
+                        hintText: 'Enter your email address',
+                        hintStyle: const TextStyle(
+                          color: Color.fromARGB(255, 209, 190, 219),
                         ),
-                      ),
-                    )
+                        border: InputBorder.none
+                      )
+                  ),
                 ),
 
                 const SizedBox(height: 10),
@@ -97,22 +95,20 @@ class _SignUpSmallScreenState extends State<SignUpSmallScreen> {
                   ),
                 ),
 
-                //user name textfield
+                //user name text-field
                 const SizedBox(height: 5),
-                TextField(
-                  controller: _userNameController,
-                  decoration: InputDecoration(
-                    filled: true,
-                    fillColor: const Color(0xFFECD7F7),
-                    hintText: 'Enter your full name',
-                    hintStyle: const TextStyle(
-                      color: Color.fromARGB(255, 209, 190, 219),
-                    ),
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10),
-                      borderSide: BorderSide(
-                        color: const Color(0xFF380F43),
+                ClipRRect(
+                  borderRadius: BorderRadius.circular(10),
+                  child: TextField(
+                    controller: _userNameController,
+                    decoration: InputDecoration(
+                      filled: true,
+                      fillColor: const Color(0xFFECD7F7),
+                      hintText: 'Enter your full name',
+                      hintStyle: const TextStyle(
+                        color: Color.fromARGB(255, 209, 190, 219),
                       ),
+                      border: InputBorder.none
                     ),
                   ),
                 ),
@@ -128,20 +124,18 @@ class _SignUpSmallScreenState extends State<SignUpSmallScreen> {
                   ),
                 ),
                 const SizedBox(height: 5),
-                TextField(
-                  controller: _phoneNumberController,
-                  decoration: InputDecoration(
-                    filled: true,
-                    fillColor: const Color(0xFFECD7F7),
-                    hintText: 'Enter your Phone Number',
-                    hintStyle: const TextStyle(
-                      color: Color.fromARGB(255, 209, 190, 219),
-                    ),
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10),
-                      borderSide: BorderSide(
-                        color: const Color(0xFF380F43),
+                ClipRRect(
+                  borderRadius: BorderRadius.circular(10),
+                  child: TextField(
+                    controller: _phoneNumberController,
+                    decoration: InputDecoration(
+                      filled: true,
+                      fillColor: const Color(0xFFECD7F7),
+                      hintText: 'Enter your Phone Number',
+                      hintStyle: const TextStyle(
+                        color: Color.fromARGB(255, 209, 190, 219),
                       ),
+                      border: InputBorder.none
                     ),
                   ),
                 ),
@@ -158,31 +152,29 @@ class _SignUpSmallScreenState extends State<SignUpSmallScreen> {
                   ),
                 ),
                 const SizedBox(height: 5),
-                TextField(
-                  controller: _passwordController,
-                  obscureText: !isPasswordVisible,
-                  decoration: InputDecoration(
-                    suffixIcon: IconButton(
-                      onPressed: () {
-                        setState(() {
-                          isPasswordVisible = !isPasswordVisible;
-                        });
-                      },
-                      icon: isPasswordVisible
-                          ? const Icon(Iconsax.eye)
-                          : const Icon(Iconsax.eye_slash),
-                    ),
-                    filled: true,
-                    fillColor: const Color(0xFFECD7F7),
-                    hintText: 'Enter your Password',
-                    hintStyle: const TextStyle(
-                      color: Color.fromARGB(255, 209, 190, 219),
-                    ),
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10),
-                      borderSide: BorderSide(
-                        color: const Color(0xFF380F43),
+                ClipRRect(
+                  borderRadius: BorderRadius.circular(10),
+                  child: TextField(
+                    controller: _passwordController,
+                    obscureText: !isPasswordVisible,
+                    decoration: InputDecoration(
+                      suffixIcon: IconButton(
+                        onPressed: () {
+                          setState(() {
+                            isPasswordVisible = !isPasswordVisible;
+                          });
+                        },
+                        icon: isPasswordVisible
+                            ? const Icon(Iconsax.eye)
+                            : const Icon(Iconsax.eye_slash),
                       ),
+                      filled: true,
+                      fillColor: const Color(0xFFECD7F7),
+                      hintText: 'Enter your Password',
+                      hintStyle: const TextStyle(
+                        color: Color.fromARGB(255, 209, 190, 219),
+                      ),
+                      border: InputBorder.none
                     ),
                   ),
                 ),
@@ -200,31 +192,29 @@ class _SignUpSmallScreenState extends State<SignUpSmallScreen> {
                 ),
 
                 const SizedBox(height: 5),
-                TextField(
-                  controller: _confirmPasswordController,
-                  obscureText: !isPasswordVisible,
-                  decoration: InputDecoration(
-                    suffixIcon: IconButton(
-                      onPressed: () {
-                        setState(() {
-                          isPasswordVisible = !isPasswordVisible;
-                        });
-                      },
-                      icon: isPasswordVisible
-                          ? const Icon(Iconsax.eye)
-                          : const Icon(Iconsax.eye_slash),
-                    ),
-                    filled: true,
-                    fillColor: const Color(0xFFECD7F7),
-                    hintText: 'Confirm your Password',
-                    hintStyle: const TextStyle(
-                      color: Color.fromARGB(255, 209, 190, 219),
-                    ),
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10),
-                      borderSide: BorderSide(
-                        color: const Color(0xFF380F43),
+                ClipRRect(
+                  borderRadius: BorderRadius.circular(10),
+                  child: TextField(
+                    controller: _confirmPasswordController,
+                    obscureText: !isPasswordVisible,
+                    decoration: InputDecoration(
+                      suffixIcon: IconButton(
+                        onPressed: () {
+                          setState(() {
+                            isPasswordVisible = !isPasswordVisible;
+                          });
+                        },
+                        icon: isPasswordVisible
+                            ? const Icon(Iconsax.eye)
+                            : const Icon(Iconsax.eye_slash),
                       ),
+                      filled: true,
+                      fillColor: const Color(0xFFECD7F7),
+                      hintText: 'Confirm your Password',
+                      hintStyle: const TextStyle(
+                        color: Color.fromARGB(255, 209, 190, 219),
+                      ),
+                      border: InputBorder.none
                     ),
                   ),
                 ),
@@ -556,20 +546,18 @@ class _SignUpLargeScreenState extends State<SignUpLargeScreen> {
           ),
         ),
         const SizedBox(height: 5),
-        TextField(
-          controller: controller,
-          decoration: InputDecoration(
-            filled: true,
-            fillColor: const Color(0xFFECD7F7),
-            hintText: hintText,
-            hintStyle: const TextStyle(
-              color: Color.fromARGB(255, 209, 190, 219),
-            ),
-            border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(10),
-              borderSide: BorderSide(
-                color: const Color(0xFF380F43),
+        ClipRRect(
+          borderRadius: BorderRadius.circular(10),
+          child: TextField(
+            controller: controller,
+            decoration: InputDecoration(
+              filled: true,
+              fillColor: const Color(0xFFECD7F7),
+              hintText: hintText,
+              hintStyle: const TextStyle(
+                color: Color.fromARGB(255, 209, 190, 219),
               ),
+              border: InputBorder.none
             ),
           ),
         ),
@@ -591,31 +579,29 @@ class _SignUpLargeScreenState extends State<SignUpLargeScreen> {
           ),
         ),
         const SizedBox(height: 5),
-        TextField(
-          controller: controller,
-          obscureText: !isPasswordVisible,
-          decoration: InputDecoration(
-            suffixIcon: IconButton(
-              onPressed: () {
-                setState(() {
-                  isPasswordVisible = !isPasswordVisible;
-                });
-              },
-              icon: isPasswordVisible
-                  ? const Icon(Iconsax.eye)
-                  : const Icon(Iconsax.eye_slash),
-            ),
-            filled: true,
-            fillColor: const Color(0xFFECD7F7),
-            hintText: hintText,
-            hintStyle: const TextStyle(
-              color: Color.fromARGB(255, 209, 190, 219),
-            ),
-            border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(10),
-              borderSide: BorderSide(
-                color: const Color(0xFF380F43),
+        ClipRRect(
+          borderRadius: BorderRadius.circular(10),
+          child: TextField(
+            controller: controller,
+            obscureText: !isPasswordVisible,
+            decoration: InputDecoration(
+              suffixIcon: IconButton(
+                onPressed: () {
+                  setState(() {
+                    isPasswordVisible = !isPasswordVisible;
+                  });
+                },
+                icon: isPasswordVisible
+                    ? const Icon(Iconsax.eye)
+                    : const Icon(Iconsax.eye_slash),
               ),
+              filled: true,
+              fillColor: const Color(0xFFECD7F7),
+              hintText: hintText,
+              hintStyle: const TextStyle(
+                color: Color.fromARGB(255, 209, 190, 219),
+              ),
+              border: InputBorder.none
             ),
           ),
         ),

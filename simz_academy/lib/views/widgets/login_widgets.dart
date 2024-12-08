@@ -68,22 +68,21 @@ class _LoginSmallScreenState extends State<LoginSmallScreen> {
                 HomeUiHelper().customText(
                     'Email Address', 16, FontWeight.w600, Color(0xFF380F43)),
                 SizedBox(height: 5),
-                TextField(
-                  decoration: InputDecoration(
-                    filled: true,
-                    fillColor: Color(0xFFECD7F7),
-                    hintText: 'Enter your email address',
-                    hintStyle: TextStyle(
-                      color: Color.fromARGB(255, 209, 190, 219),
-                    ),
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10),
-                      borderSide: BorderSide(
-                        color: Color(0xFFECD7F7),
+                ClipRRect(
+                  borderRadius: BorderRadius.circular(10), // Apply border radius to clip child
+                  child: TextField(
+                    decoration: InputDecoration(
+                      filled: true,
+                      fillColor: Color(0xFFECD7F7), // Inner fill color
+                      hintText: 'Enter your email address',
+                      hintStyle: TextStyle(
+                        color: Color.fromARGB(255, 209, 190, 219),
                       ),
+                      border: InputBorder.none, // No border
+                      contentPadding: EdgeInsets.symmetric(horizontal: 16, vertical: 12), // Adjust padding if needed
                     ),
+                    controller: emailController,
                   ),
-                  controller: emailController,
                 ),
 
                 const SizedBox(
@@ -93,33 +92,31 @@ class _LoginSmallScreenState extends State<LoginSmallScreen> {
                 HomeUiHelper().customText(
                     'Password', 16, FontWeight.w600, Color(0xFF380F43)),
                 SizedBox(height: 5),
-                TextField(
-                  obscureText: !isPasswordVisible,
-                  decoration: InputDecoration(
-                    suffixIcon: IconButton(
-                      onPressed: () {
-                        setState(() {
-                          isPasswordVisible = !isPasswordVisible;
-                        });
-                      },
-                      icon: (isPasswordVisible)
-                          ? Icon(Iconsax.eye)
-                          : Icon(Iconsax.eye_slash),
-                    ),
-                    filled: true,
-                    fillColor: Color(0xFFECD7F7),
-                    hintText: 'Enter your Password',
-                    hintStyle: TextStyle(
-                      color: Color.fromARGB(255, 209, 190, 219),
-                    ),
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10),
-                      borderSide: BorderSide(
-                        color: Color(0xFFECD7F7),
+                ClipRRect(
+                  borderRadius: BorderRadius.circular(10),
+                  child: TextField(
+                    obscureText: !isPasswordVisible,
+                    decoration: InputDecoration(
+                      suffixIcon: IconButton(
+                        onPressed: () {
+                          setState(() {
+                            isPasswordVisible = !isPasswordVisible;
+                          });
+                        },
+                        icon: (isPasswordVisible)
+                            ? Icon(Iconsax.eye)
+                            : Icon(Iconsax.eye_slash),
                       ),
+                      filled: true,
+                      fillColor: Color(0xFFECD7F7),
+                      hintText: 'Enter your Password',
+                      hintStyle: TextStyle(
+                        color: Color.fromARGB(255, 209, 190, 219),
+                      ),
+                      border: InputBorder.none
                     ),
+                    controller: _passwordController,
                   ),
-                  controller: _passwordController,
                 ),
 
                 const SizedBox(
@@ -293,22 +290,20 @@ class _LoginLargeScreenState extends State<LoginLargeScreen> {
                   const SizedBox(height: 5),
                   SizedBox(
                     width: width/2.5,
-                    child: TextField(
-                      decoration: InputDecoration(
-                        filled: true,
-                        fillColor: const Color(0xFFECD7F7),
-                        hintText: 'Enter your email address',
-                        hintStyle: const TextStyle(
-                          color: Color.fromARGB(255, 209, 190, 219),
-                        ),
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10),
-                          borderSide: const BorderSide(
-                            color: Color(0xFFECD7F7),
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(10),
+                      child: TextField(
+                        decoration: InputDecoration(
+                          filled: true,
+                          fillColor: const Color(0xFFECD7F7),
+                          hintText: 'Enter your email address',
+                          hintStyle: const TextStyle(
+                            color: Color.fromARGB(255, 209, 190, 219),
                           ),
+                          border: InputBorder.none,
                         ),
+                        controller: emailController,
                       ),
-                      controller: emailController,
                     ),
                   ),
 
@@ -320,33 +315,31 @@ class _LoginLargeScreenState extends State<LoginLargeScreen> {
                   const SizedBox(height: 5),
                   SizedBox(
                     width: width/2.5,
-                    child: TextField(
-                      obscureText: !isPasswordVisible,
-                      decoration: InputDecoration(
-                        suffixIcon: IconButton(
-                          onPressed: () {
-                            setState(() {
-                              isPasswordVisible = !isPasswordVisible;
-                            });
-                          },
-                          icon: (isPasswordVisible)
-                              ? const Icon(Iconsax.eye)
-                              : const Icon(Iconsax.eye_slash),
-                        ),
-                        filled: true,
-                        fillColor: const Color(0xFFECD7F7),
-                        hintText: 'Enter your Password',
-                        hintStyle: const TextStyle(
-                          color: Color.fromARGB(255, 209, 190, 219),
-                        ),
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10),
-                          borderSide: const BorderSide(
-                            color: Color(0xFFECD7F7),
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(10),
+                      child: TextField(
+                        obscureText: !isPasswordVisible,
+                        decoration: InputDecoration(
+                          suffixIcon: IconButton(
+                            onPressed: () {
+                              setState(() {
+                                isPasswordVisible = !isPasswordVisible;
+                              });
+                            },
+                            icon: (isPasswordVisible)
+                                ? const Icon(Iconsax.eye)
+                                : const Icon(Iconsax.eye_slash),
                           ),
+                          filled: true,
+                          fillColor: const Color(0xFFECD7F7),
+                          hintText: 'Enter your Password',
+                          hintStyle: const TextStyle(
+                            color: Color.fromARGB(255, 209, 190, 219),
+                          ),
+                          border: InputBorder.none,
                         ),
+                        controller: _passwordController,
                       ),
-                      controller: _passwordController,
                     ),
                   ),
 
