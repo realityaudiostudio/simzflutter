@@ -29,6 +29,16 @@ String getCurrentUserName() {
   }
 }
 
+String getUserId(){
+  final supabase = Supabase.instance.client;
+  final user = supabase.auth.currentUser;
+  if (user != null) {
+    return user.id;
+  } else {
+    return 'No user found';
+  }
+}
+
 String getCurrentUserId(BuildContext context) {
   final supabase = Supabase.instance.client;
   final user = supabase.auth.currentUser;

@@ -8,9 +8,11 @@ import 'package:simz_academy/views/screens/practise_screen.dart';
 import 'package:simz_academy/views/screens/sheet_screen.dart';
 //import 'package:simz_academy/screens/syllabus_screen.dart';
 import 'package:simz_academy/views/screens/syllabus_select_screen.dart';
+import 'package:simz_academy/views/screens/track_lessons.dart';
 //import 'package:simz_academy/views/screens/test_search_screen.dart';
 //import 'package:simz_academy/views/screens/test_video_player.dart';
 import 'package:simz_academy/views/widgets/home_screen_widgets.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -20,6 +22,42 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  String currLearn = "Loading...";
+  String progress = "Loading ...";
+  @override
+  void initState() {
+    super.initState();
+    fetchCurrentLearning();
+  }
+  Future<void> fetchCurrentLearning() async {
+    try {
+      final response = await Supabase.instance.client
+          .from('student_details')
+          .select('curr_learn')
+          .eq('user_id', getCurrentUserId(context))
+          .single();
+
+
+      if (response['curr_learn'] is List && response['curr_learn'].isNotEmpty) {
+        setState(() {
+          currLearn = response['curr_learn'][0]; // Assign the first item in the array
+          progress = response['curr_learn'][1];
+        });
+      } else {
+        setState(() {
+          currLearn = "No data available";
+          progress = "0%";
+        });
+      }
+    } catch (e) {
+      setState(() {
+        currLearn = "Error fetching data";
+        progress = "Error";
+      });
+      debugPrint('Error fetching current learning: $e');
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     //print(getCurrentUserName());
@@ -160,7 +198,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: <Widget>[
                               HomeUiHelper().customText(
-                                'Grade 2',
+                                'Grade ',
                                 15,
                                 FontWeight.normal,
                                 const Color.fromRGBO(28, 83, 136, 1),
@@ -171,7 +209,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                     MainAxisAlignment.spaceBetween,
                                 children: <Widget>[
                                   HomeUiHelper().customText(
-                                    'Sky Boat Song',
+                                    currLearn,
                                     24,
                                     FontWeight.bold,
                                     const Color.fromRGBO(28, 83, 136, 1),
@@ -197,14 +235,9 @@ class _HomeScreenState extends State<HomeScreen> {
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: <Widget>[
                                   HomeUiHelper().customText(
-                                      '48%  ',
+                                      progress,
                                       20,
                                       FontWeight.w600,
-                                      const Color.fromRGBO(18, 39, 63, 1)),
-                                  HomeUiHelper().customText(
-                                      'Completed',
-                                      15,
-                                      FontWeight.w300,
                                       const Color.fromRGBO(18, 39, 63, 1)),
                                   const Expanded(child: SizedBox()),
                                   ElevatedButton(
@@ -220,34 +253,9 @@ class _HomeScreenState extends State<HomeScreen> {
                                       ),
                                     ),
                                     onPressed: () {
-                                      showDialog(
-                                        context: context,
-                                        builder: (context) {
-                                          return AlertDialog(
-                                            title: Text(
-                                              "This feature is in development",
-                                              maxLines: 3,
-                                            ),
-                                            actions: [
-                                              TextButton(
-                                                onPressed: () {
-                                                  Navigator.pop(context);
-                                                },
-                                                child: Text(
-                                                  'Close',
-                                                  style: TextStyle(
-                                                    color: Color.fromRGBO(
-                                                        56,
-                                                        15,
-                                                        67,
-                                                        1), // Set the text color
-                                                  ),
-                                                ),
-                                              ),
-                                            ],
-                                          );
-                                        },
-                                      );
+                                      Navigator.of(context).push(MaterialPageRoute(builder: (context){
+                                        return TrackLessonScreen();
+                                      }));
                                     },
                                     child: const Text(
                                       'Track Lessons',
