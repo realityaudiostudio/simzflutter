@@ -46,13 +46,13 @@ class _HomeScreenState extends State<HomeScreen> {
       } else {
         setState(() {
           currLearn = "No data available";
-          progress = "0%";
+          progress = "0% progress";
         });
       }
     } catch (e) {
       setState(() {
-        currLearn = "Error fetching data";
-        progress = "Error";
+        currLearn = "No courses available";
+        progress = "0% progress";
       });
       debugPrint('Error fetching current learning: $e');
     }
