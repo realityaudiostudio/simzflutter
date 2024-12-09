@@ -56,7 +56,7 @@ dependencies:
   video_player: ^2.9.1
   chewie: ^1.8.5
   wakelock_plus: ^1.2.8
-
+  email_validator: ^2.0.1
 
 dev_dependencies:
   flutter_lints: ^3.0.0
