@@ -8,6 +8,9 @@ import 'package:simz_academy/controllers/constants/screen_details.dart';
 import 'package:simz_academy/views/screens/bottom_nav.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
+import '../../controllers/functions/student_details_controller.dart';
+import '../../models/student_model/student_details_model.dart';
+
 class OtpScreen extends StatefulWidget {
   final email;
   const OtpScreen({super.key, required this.email});
@@ -121,6 +124,7 @@ class _OtpScreenState extends State<OtpScreen> {
                       final response = await Supabase.instance.client.auth.verifyOTP(type: OtpType.email , token: otp, email: widget.email.toString());
                     // on verification success, navigate to the home screen
                     if(response.session!=null){
+                      saveStudentDetails();
                       Navigator.pushReplacement(
                         context,
                         MaterialPageRoute(builder: (context) => const BottomNav()),
@@ -146,4 +150,28 @@ class _OtpScreenState extends State<OtpScreen> {
       ),
     ));
   }
+}
+Future<void> saveStudentDetails() async {
+  final currentUserId = Supabase.instance.client.auth.currentUser?.id;
+
+  if (currentUserId == null) {
+    print('User not logged in!');
+    return;
+  }
+
+  // Create an instance of the model
+  StudentDetails studentDetails = StudentDetails(
+    userId: currentUserId,
+    isStudent: true,
+    lessons: [],
+    courses: [],
+    attendanceDetails: {},
+    yearAdm: null,
+    prevLearn: [],
+    currLearn: [],
+    feeDue: null, // Optional field
+  );
+
+  // Call the function to insert the data
+  await sendStudentDetailsToSupabase(studentDetails);
 }
