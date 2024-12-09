@@ -235,20 +235,20 @@ class _UpcomingState extends State<Upcoming> {
         return Center(
           child: InkWell(
             onTap: ()async{
-              print(upcomingEvents); 
+              print(upcomingEvents);
               String dateTimeString = '$upcomingDate $upcomingTime';
               try {
                 //parse to datetime
 
                 DateTime classTime = DateTime.parse(dateTimeString);
-                print('Parsed DateTime: $classTime');
+                debugPrint('Parsed DateTime: $classTime');
 
                 //convert to milliseconds
                 int timeInMillis = classTime.millisecondsSinceEpoch;
                 final  androidUrl = "content://com.android.calendar/time/$timeInMillis";
                 showAlertBox(context, androidUrl);
               }catch(e){
-                print(e.toString());
+                debugPrint(e.toString());
               }
             },
             child: Container(
