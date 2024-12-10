@@ -155,7 +155,7 @@ Future<void> saveStudentDetails() async {
   final currentUserId = Supabase.instance.client.auth.currentUser?.id;
 
   if (currentUserId == null) {
-    print('User not logged in!');
+    debugPrint('User not logged in!');
     return;
   }
 
@@ -170,6 +170,8 @@ Future<void> saveStudentDetails() async {
     prevLearn: [],
     currLearn: [],
     feeDue: null, // Optional field
+    badges: [], // Optional field
+    certificates: [], // Optional field
   );
 
   // Call the function to insert the data

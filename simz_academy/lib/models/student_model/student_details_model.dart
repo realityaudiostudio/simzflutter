@@ -8,6 +8,8 @@ class StudentDetails {
   List<String> prevLearn;
   List<String> currLearn;
   num? feeDue;
+  List<String>? badges;
+  List<String>? certificates;
 
   StudentDetails({
     required this.userId,
@@ -19,6 +21,8 @@ class StudentDetails {
     required this.prevLearn,
     required this.currLearn,
     this.feeDue,
+    this.badges,
+    this.certificates,
   });
 
   // Convert the object to JSON
@@ -33,6 +37,8 @@ class StudentDetails {
       'prev_learn': prevLearn,
       'curr_learn': currLearn,
       'fee_due': feeDue,
+      'badges': badges,
+      'certificates': certificates,
     };
   }
 }
