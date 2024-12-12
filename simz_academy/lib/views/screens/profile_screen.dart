@@ -8,6 +8,7 @@ import 'package:simz_academy/models/student_model/certificate_model.dart';
 import 'package:simz_academy/views/UIHelper/home_ui_helper.dart';
 import 'package:simz_academy/controllers/constants/supabase_functions.dart';
 import 'package:simz_academy/views/screens/bottom_nav.dart';
+import 'package:simz_academy/views/screens/edit_profile.dart';
 import 'package:simz_academy/views/screens/login_screen.dart';
 import 'package:simz_academy/views/widgets/common_widgets.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -247,31 +248,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     //SizedBox(width: 16.0),
                     TextButton(
                       onPressed: () {
-                        showDialog(
-                          context: context,
-                          builder: (context) {
-                            return AlertDialog(
-                              title: Text(
-                                "Will be available soon",
-                                maxLines: 3,
-                              ),
-                              actions: [
-                                TextButton(
-                                  onPressed: () {
-                                    Navigator.pop(context);
-                                  },
-                                  child: Text(
-                                    'Close',
-                                    style: TextStyle(
-                                      color: Color.fromRGBO(
-                                          56, 15, 67, 1), // Set the text color
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            );
-                          },
-                        );
+                        Navigator.of(context).push(MaterialPageRoute(
+                          builder: (context) => EditProfile(),
+                        ));
                       },
                       child: Row(
                         children: [
@@ -629,12 +608,5 @@ class _ProfileScreenState extends State<ProfileScreen> {
         ),
       ),
     );
-  }
-
-  String getCurrentUserPhone() {
-    final supabase = Supabase.instance.client;
-    final user = supabase.auth.currentUser?.userMetadata!['phone'];
-    //print(user);
-    return user ?? 'No phone number found';
   }
 }

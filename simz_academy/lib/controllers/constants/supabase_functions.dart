@@ -59,7 +59,12 @@ String getCurrentUserEmail() {
   
     return user!.email!;
 }
-
+String getCurrentUserPhone() {
+  final supabase = Supabase.instance.client;
+  final user = supabase.auth.currentUser?.userMetadata!['phone'];
+  //print(user);
+  return user ?? 'No phone number found';
+}
 
 Future<void> SignUp(BuildContext context,
     String email,
