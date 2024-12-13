@@ -187,7 +187,9 @@ class _LoginSmallScreenState extends State<LoginSmallScreen> {
                     ),
                   ),
                   child: (submitted)
-                      ? CircularProgressIndicator()
+                      ? CircularProgressIndicator(
+                    color: Colors.white,
+                  )
                       : HomeUiHelper().customText(
                           'Login', 20, FontWeight.w600, Color(0xFFFFFFFF)),
                 ),
@@ -415,7 +417,9 @@ class _LoginLargeScreenState extends State<LoginLargeScreen> {
                         ),
                       ),
                       child: (submitted)
-                          ? const CircularProgressIndicator()
+                          ? const CircularProgressIndicator(
+                        color: Colors.white,
+                      )
                           : HomeUiHelper().customText(
                           'Login', 20, FontWeight.w600, const Color(0xFFFFFFFF)),
                     ),
