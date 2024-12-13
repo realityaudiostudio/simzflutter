@@ -1,3 +1,4 @@
+import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
 import 'package:flutter/material.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:iconsax/iconsax.dart';
@@ -71,11 +72,10 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                 SizedBox(height: 5),
                 Container(
                     decoration: BoxDecoration(
-                      color: Color(0xFFF6EBFC),
-                      borderRadius: BorderRadius.circular(10)
-                    ),
+                        color: Color(0xFFF6EBFC),
+                        borderRadius: BorderRadius.circular(10)),
                     child: Padding(
-                      padding: const EdgeInsets.only(left: 5,right: 5),
+                      padding: const EdgeInsets.only(left: 5, right: 5),
                       child: TextFormField(
                         controller: emailC,
                         decoration: const InputDecoration(
@@ -127,12 +127,23 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                               .resetPasswordForEmail(emailC.text);
                         } catch (e) {
                           ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(content: Text('Error: $e')),
+                            SnackBar(
+                              backgroundColor: Colors.transparent,
+                              elevation: 0,
+                              content: AwesomeSnackbarContent(
+                                  title: 'Error',
+                                  message: 'An occurred while sending OTP',
+                                  contentType: ContentType.failure),
+                            ),
                           );
                         }
                       }
                     },
-                    child: HomeUiHelper().customText('Send Reset Password Token', 20, FontWeight.w700, Color(0xFFECD7F7)),
+                    child: HomeUiHelper().customText(
+                        'Send Reset Password Token',
+                        20,
+                        FontWeight.w700,
+                        Color(0xFFECD7F7)),
                   ),
                 ),
                 formSpacer,
@@ -146,13 +157,14 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                       ),
                     );
                   },
-                  child:
-                      Row(
-                        children: [
-                          HomeUiHelper().customText('Already have a reset token?  ', 16, FontWeight.w600, Color(0xFF380F43)),
-                          HomeUiHelper().customText('Reset Password', 16, FontWeight.w600, Color(0xFFC61515)),
-                        ],
-                      ),
+                  child: Row(
+                    children: [
+                      HomeUiHelper().customText('Already have a reset token?  ',
+                          16, FontWeight.w600, Color(0xFF380F43)),
+                      HomeUiHelper().customText('Reset Password', 16,
+                          FontWeight.w600, Color(0xFFC61515)),
+                    ],
+                  ),
                 ),
               ],
             ),

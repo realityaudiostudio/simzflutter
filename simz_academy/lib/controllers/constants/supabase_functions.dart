@@ -153,3 +153,20 @@ List LoginValidator(
     }
     return errors;
   }
+
+List resetProfilePasswordValidator(
+    TextEditingController _passwordController,
+    ){
+  List errors = [];
+  if (_passwordController.text.length < 8) {
+    errors.add('Password must be at least 8 characters');}
+
+  if (!RegExp(r'[!@#%&*()_+=\-?/<>\.,;:\[\]{}|`~]')
+      .hasMatch(_passwordController.text)) {
+    errors.add('Password must contain at least one special character');
+  }
+  else {
+    errors = [];
+  }
+  return errors;
+}

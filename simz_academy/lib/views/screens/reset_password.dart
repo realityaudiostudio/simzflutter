@@ -1,6 +1,8 @@
+import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
 import 'package:flutter/material.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:iconsax/iconsax.dart';
+import 'package:simz_academy/controllers/constants/supabase_functions.dart';
 //import 'package:iconsax_plus/iconsax_plus.dart';
 import 'package:simz_academy/views/UIHelper/home_ui_helper.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -18,8 +20,8 @@ class ResetPasswordScreen extends StatefulWidget {
 class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
   final emailC = TextEditingController(); // Email controller
   final passwordC = TextEditingController(); // Password controller
-  final List<TextEditingController> resetTokenControllers =
-  List.generate(6, (index) => TextEditingController()); // Reset token controllers
+  final List<TextEditingController> resetTokenControllers = List.generate(
+      6, (index) => TextEditingController()); // Reset token controllers
   final formKey = GlobalKey<FormState>(); // Form key for validation
   bool _passwordVisible = true; // For toggling password visibility
   bool? isLoading;
@@ -65,7 +67,9 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                   Color(0xFF380F43),
                 ),
               ),
-              SizedBox(height: 5,),
+              SizedBox(
+                height: 5,
+              ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: List.generate(6, (index) {
@@ -86,7 +90,8 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                             ),
                           ),
                           border: OutlineInputBorder(),
-                          counterText: "", // Removes character count below the box
+                          counterText:
+                              "", // Removes character count below the box
                         ),
                         onChanged: (value) {
                           // Automatically move to the next box on input
@@ -123,7 +128,9 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                   Color(0xFF380F43),
                 ),
               ),
-              SizedBox(height: 5,),
+              SizedBox(
+                height: 5,
+              ),
               Container(
                 decoration: BoxDecoration(
                   color: Color(0xFFF6EBFC),
@@ -156,7 +163,9 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                   Color(0xFF380F43),
                 ),
               ),
-              SizedBox(height: 5,),
+              SizedBox(
+                height: 5,
+              ),
               Container(
                 decoration: BoxDecoration(
                   color: Color(0xFFF6EBFC),
@@ -168,8 +177,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                     controller: passwordC,
                     obscureText: _passwordVisible,
                     decoration: InputDecoration(
-                      border:
-                      InputBorder.none,
+                      border: InputBorder.none,
                       hintStyle: TextStyle(color: Color(0xFFCD8CE6)),
                       hintText: 'Enter New Password',
                       suffixIcon: IconButton(
@@ -179,13 +187,17 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                           });
                         },
                         icon: _passwordVisible
-                            ? Icon(Iconsax.eye,color: Color.fromRGBO(137,60,162,1),)
-                            : Icon(Iconsax.eye_slash,color: Color.fromRGBO(137,60,162,1)),
+                            ? Icon(
+                                Iconsax.eye,
+                                color: Color.fromRGBO(137, 60, 162, 1),
+                              )
+                            : Icon(Iconsax.eye_slash,
+                                color: Color.fromRGBO(137, 60, 162, 1)),
                       ),
                     ),
                     validator: (value) {
-                      if (value!.isEmpty || value.length < 6) {
-                        return 'Password must be at least 6 characters!';
+                      if (value!.isEmpty || value.length < 8) {
+                        return 'Password must be at least 8 characters!';
                       }
                       return null;
                     },
@@ -199,8 +211,10 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                 child: ElevatedButton(
                   style: ButtonStyle(
                     elevation: WidgetStateProperty.all(10),
-                    shadowColor: WidgetStateProperty.all(const Color(0x3F380F43)),
-                    backgroundColor: WidgetStateProperty.all(const Color(0xFF893CA2)),
+                    shadowColor:
+                        WidgetStateProperty.all(const Color(0x3F380F43)),
+                    backgroundColor:
+                        WidgetStateProperty.all(const Color(0xFF893CA2)),
                     shape: WidgetStateProperty.all(
                       RoundedRectangleBorder(
                         borderRadius: borderRadiusStd,
@@ -219,43 +233,83 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                         return;
                       }
                       isLoading = true;
-                      showDialog(
-                        context: context,
-                        barrierDismissible: false,
-                        builder: (context) =>
-                        const Center(child: CircularProgressIndicator(
-                          color: Colors.white,
-                        )),
-                      );
-                      try {
-                        // Verify OTP and update password
-                        await Supabase.instance.client.auth.verifyOTP(
-                          email: emailC.text,
-                          token: resetToken,
-                          type: OtpType.recovery,
-                        );
-                        await Supabase.instance.client.auth.updateUser(
-                          UserAttributes(password: passwordC.text),
-                        );
-                        isLoading = false;
-                        Navigator.of(context, rootNavigator: true).pop();
+
+                      List condition =
+                          LoginValidator(context, emailC, passwordC);
+
+                      if (condition.isEmpty) {
+                        try {
+                          showDialog(
+                            context: context,
+                            barrierDismissible: false,
+                            builder: (context) => const Center(
+                                child: CircularProgressIndicator(
+                                  color: Colors.white,
+                                )),
+                          );
+                          // Verify OTP and update password
+                          await Supabase.instance.client.auth.verifyOTP(
+                            email: emailC.text,
+                            token: resetToken,
+                            type: OtpType.recovery,
+                          );
+                          await Supabase.instance.client.auth.updateUser(
+                            UserAttributes(password: passwordC.text),
+                          );
+                          isLoading = false;
+                          Navigator.of(context, rootNavigator: true).pop();
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                              backgroundColor: Colors.transparent,
+                              elevation: 0,
+                              content: AwesomeSnackbarContent(
+                                title: 'Update Success',
+                                message: 'Please login again',
+                                contentType: ContentType.success,
+                              ),
+                            ),
+                          );
+                          Navigator.pop(context); // Navigate back after success
+                        } catch (e) {
+                          Navigator.of(context, rootNavigator: true).pop();
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              backgroundColor: Colors.transparent,
+                              elevation: 0,
+                              content: AwesomeSnackbarContent(
+                                title: 'Update Failed',
+                                message: 'Please try again',
+                                contentType: ContentType.failure,
+                              ),
+                            ),
+                          );
+                        }
+                      } else {
                         ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(
-                            content: Text(
-                              'Password successfully updated. Please log in again.',
+                          SnackBar(
+                            backgroundColor: Colors.transparent,
+                            elevation: 0,
+                            content: AwesomeSnackbarContent(
+                              title: 'Invalid Format',
+                              messageTextStyle: TextStyle(fontSize: 10),
+                              message: condition
+                                  .toString()
+                                  .replaceAll('[', '')
+                                  .replaceAll(']', '')
+                                  .replaceAll(', ', '\n'),
+                              contentType: ContentType.warning,
                             ),
                           ),
-                        );
-                        Navigator.pop(context); // Navigate back after success
-                      } catch (e) {
-                        Navigator.of(context, rootNavigator: true).pop();
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(content: Text('Error: $e')),
                         );
                       }
                     }
                   },
-                  child: HomeUiHelper().customText('Reset Password', 20, FontWeight.w700, Color(0xFFECD7F7),),
+                  child: HomeUiHelper().customText(
+                    'Reset Password',
+                    20,
+                    FontWeight.w700,
+                    Color(0xFFECD7F7),
+                  ),
                 ),
               ),
             ],

@@ -4,6 +4,7 @@ import 'package:simz_academy/models/student_model/profile_model.dart';
 import 'package:simz_academy/views/UIHelper/home_ui_helper.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import '../../controllers/constants/supabase_functions.dart';
+import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
 
 class EditProfile extends StatefulWidget {
   const EditProfile({super.key});
@@ -77,7 +78,7 @@ class _EditProfileState extends State<EditProfile> {
                 SizedBox(
                   height: 20,
                 ),
-            
+
                 //name
                 Align(
                   alignment: Alignment.centerLeft,
@@ -110,7 +111,7 @@ class _EditProfileState extends State<EditProfile> {
                 SizedBox(
                   height: 5,
                 ),
-            
+
                 //phone
                 Align(
                   alignment: Alignment.centerLeft,
@@ -141,7 +142,7 @@ class _EditProfileState extends State<EditProfile> {
                 SizedBox(
                   height: 5,
                 ),
-            
+
                 //year of admission
                 Align(
                   alignment: Alignment.centerLeft,
@@ -222,7 +223,7 @@ class _EditProfileState extends State<EditProfile> {
                       SizedBox(height: 10),
                     ],
                   ),
-            
+
                 TextButton(
                   onPressed: () {
                     setState(
@@ -265,8 +266,8 @@ class _EditProfileState extends State<EditProfile> {
                       ),
                     ),
                     onPressed: () {
-                      updateProfile(passwordController.text, nameController.text,
-                          phoneNumberController.text);
+                      updateProfile(passwordController.text,
+                          nameController.text, phoneNumberController.text);
                     },
                     child: HomeUiHelper().customText(
                       'Save Changes',
@@ -285,19 +286,23 @@ class _EditProfileState extends State<EditProfile> {
   }
 
   void updateProfile(String password, String name, String phone) async {
+    List conditions = resetProfilePasswordValidator(passwordController);
     final userId = getUserId();
     try {
       // Update the year of admission in the 'student_details' table
-      await Supabase.instance.client
-          .from('student_details')
-          .update({'year_adm': yearOfAdmissionController.text})
-          .eq('user_id', userId);
+      await Supabase.instance.client.from('student_details').update(
+          {'year_adm': yearOfAdmissionController.text}).eq('user_id', userId);
 
       // Update the password if the user requested it
+
       if (setPassword && password.isNotEmpty) {
-        await Supabase.instance.client.auth.updateUser(
-          UserAttributes(password: password),
-        );
+        if(conditions.isEmpty){
+          await Supabase.instance.client.auth.updateUser(
+            UserAttributes(password: password),
+          );
+        }else{
+          throw AuthApiException(conditions.toString());
+        }
       }
 
       // Update user profile data (name and phone)
@@ -308,12 +313,34 @@ class _EditProfileState extends State<EditProfile> {
       // Show success snackbar
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text(
-            'Profile updated successfully!',
-            style: TextStyle(color: Colors.white),
+          elevation: 0,
+          behavior: SnackBarBehavior.floating,
+          backgroundColor: Colors.transparent,
+          content: AwesomeSnackbarContent(
+            title: 'Profile Updated Successfully',
+            message: 'Navigate to home page to view changes',
+            contentType: ContentType.success,
           ),
-          backgroundColor: Colors.green,
           duration: Duration(seconds: 3),
+        ),
+      );
+    } on AuthApiException catch (e) {
+      // Log the error and show error snackbar
+      debugPrint(e.message);
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          backgroundColor: Colors.transparent,
+          elevation: 0,
+          content: AwesomeSnackbarContent(
+            title: 'Invalid Format',
+            messageTextStyle: TextStyle(fontSize: 10),
+            message: conditions
+                .toString()
+                .replaceAll('[', '')
+                .replaceAll(']', '')
+                .replaceAll(', ', '\n'),
+            contentType: ContentType.warning,
+          ),
         ),
       );
     } catch (e) {
@@ -321,11 +348,14 @@ class _EditProfileState extends State<EditProfile> {
       debugPrint(e.toString());
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text(
-            'Failed to update profile: $e',
-            style: TextStyle(color: Colors.white),
+          elevation: 0,
+          behavior: SnackBarBehavior.floating,
+          backgroundColor: Colors.transparent,
+          content: AwesomeSnackbarContent(
+            title: 'Update Failed',
+            message: 'Try again later',
+            contentType: ContentType.failure,
           ),
-          backgroundColor: Colors.red,
           duration: Duration(seconds: 3),
         ),
       );
