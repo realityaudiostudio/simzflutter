@@ -138,14 +138,6 @@ class _HomeScreenState extends State<HomeScreen> {
                               ),
                             ],
                           ),
-                          Padding(
-                            padding: const EdgeInsets.only(right: 4.0),
-                            child: Image.asset(
-                              'lib/assets/images/person.png',
-                              fit: BoxFit.cover,
-                              scale: 1.1,
-                            ),
-                          ),
                         ],
                       ),
                     ]),

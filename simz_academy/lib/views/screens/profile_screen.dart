@@ -210,31 +210,31 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                 Color.fromRGBO(251, 246, 253, 1),
                               ),
                             ),
-                            SizedBox(
-                              width: 200.0,
-                              child: Text(
-                                maxLines: 1,
-                                overflow: TextOverflow.ellipsis,
-                                getCurrentUserId(context),
-                                style: GoogleFonts.blinker(
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w400,
-                                  color: Color.fromRGBO(251, 246, 253, 1),
-                                ),
-                              ),
-                            ),
+                            // SizedBox(
+                            //   width: 200.0,
+                            //   child: Text(
+                            //     maxLines: 1,
+                            //     overflow: TextOverflow.ellipsis,
+                            //     getCurrentUserId(context),
+                            //     style: GoogleFonts.blinker(
+                            //       fontSize: 16,
+                            //       fontWeight: FontWeight.w400,
+                            //       color: Color.fromRGBO(251, 246, 253, 1),
+                            //     ),
+                            //   ),
+                            // ),
                             HomeUiHelper().customText(
                               getCurrentUserEmail(),
                               16,
                               FontWeight.w400,
                               Color.fromRGBO(251, 246, 253, 1),
                             ),
-                            HomeUiHelper().customText(
-                              getCurrentUserPhone(),
-                              16,
-                              FontWeight.w400,
-                              Color.fromRGBO(251, 246, 253, 1),
-                            ),
+                            // HomeUiHelper().customText(
+                            //   getCurrentUserPhone(),
+                            //   16,
+                            //   FontWeight.w400,
+                            //   Color.fromRGBO(251, 246, 253, 1),
+                            // ),
                           ],
                         ),
                       ],
@@ -248,9 +248,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     //SizedBox(width: 16.0),
                     TextButton(
                       onPressed: () {
-                        Navigator.of(context).push(MaterialPageRoute(
-                          builder: (context) => EditProfile(),
-                        ));
+                        Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder: (context) => EditProfile(),
+                          ),
+                        );
                       },
                       child: Row(
                         children: [
