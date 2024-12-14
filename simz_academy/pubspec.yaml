@@ -56,14 +56,14 @@ dependencies:
   video_player: ^2.9.1
   chewie: ^1.8.5
   wakelock_plus: ^1.2.8
-  email_validator: ^2.0.1
+  email_validator: ^3.0.0
   awesome_snackbar_content: ^0.1.4
 
 dev_dependencies:
-  flutter_lints: ^3.0.0
+  flutter_lints: ^5.0.0
   flutter_test:
     sdk: flutter
-  flutter_launcher_icons: ^0.13.1
+  flutter_launcher_icons: ^0.14.2
 
 flutter_icons:
   android: true

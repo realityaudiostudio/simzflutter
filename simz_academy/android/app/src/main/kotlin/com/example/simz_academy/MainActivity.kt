@@ -1,4 +1,4 @@
-package com.example.simz_academy
+package com.simzmusic.simzacademy
 
 import io.flutter.embedding.android.FlutterActivity
 
