@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:iconsax_plus/iconsax_plus.dart';
 import 'package:simz_academy/views/UIHelper/home_ui_helper.dart';
@@ -88,12 +89,20 @@ class _HomeScreenState extends State<HomeScreen> {
                                 FontWeight.w300,
                                 const Color.fromRGBO(56, 15, 67, 1.0),
                               ),
-                              HomeUiHelper().customText(
-                                getCurrentUserName(),
-                                24,
-                                FontWeight.w600,
-                                const Color.fromRGBO(56, 15, 67, 1.0),
+                              SizedBox(
+                                width: 200,
+                                child: Text(
+                                  getCurrentUserName(),
+                                  style: GoogleFonts.blinker(
+                                    fontSize: 24,
+                                    fontWeight: FontWeight.w600,
+                                    color: const Color.fromRGBO(56, 15, 67, 1.0),
+                                  ),
+                                  overflow: TextOverflow.ellipsis,
+                                  maxLines: 1,//  text overflow
+                                ),
                               )
+
                             ],
                           ),
                         ],
