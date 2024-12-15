@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 //import 'package:google_fonts/google_fonts.dart';
 import 'package:iconsax/iconsax.dart'; // Ensure you have the iconsax package added in pubspec.yaml
+import 'package:iconsax_plus/iconsax_plus.dart';
 import 'package:lottie/lottie.dart';
 import 'package:simz_academy/models/student_model/badge_model.dart';
 import 'package:simz_academy/models/student_model/certificate_model.dart';
@@ -192,11 +193,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           width: 80.0,
                           decoration: BoxDecoration(
                             shape: BoxShape.circle,
-                            image: DecorationImage(
-                              image: AssetImage('lib/assets/images/person.png'),
-                              fit: BoxFit.cover,
-                            ),
                           ),
+                          child: Icon(IconsaxPlusBold.user_square, size: 40.0,color: Colors.white,),
                         ),
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
