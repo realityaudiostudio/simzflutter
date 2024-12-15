@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
+//import 'package:google_fonts/google_fonts.dart';
 import 'package:iconsax/iconsax.dart'; // Ensure you have the iconsax package added in pubspec.yaml
 import 'package:lottie/lottie.dart';
 import 'package:simz_academy/models/student_model/badge_model.dart';
