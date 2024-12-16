@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:iconsax_plus/iconsax_plus.dart';
 import 'package:simz_academy/views/UIHelper/home_ui_helper.dart';
@@ -46,13 +47,13 @@ class _HomeScreenState extends State<HomeScreen> {
       } else {
         setState(() {
           currLearn = "No data available";
-          progress = "0%";
+          progress = "0% progress";
         });
       }
     } catch (e) {
       setState(() {
-        currLearn = "Error fetching data";
-        progress = "Error";
+        currLearn = "No courses available";
+        progress = "0% progress";
       });
       debugPrint('Error fetching current learning: $e');
     }
@@ -88,12 +89,20 @@ class _HomeScreenState extends State<HomeScreen> {
                                 FontWeight.w300,
                                 const Color.fromRGBO(56, 15, 67, 1.0),
                               ),
-                              HomeUiHelper().customText(
-                                getCurrentUserName(),
-                                24,
-                                FontWeight.w600,
-                                const Color.fromRGBO(56, 15, 67, 1.0),
+                              SizedBox(
+                                width: 200,
+                                child: Text(
+                                  getCurrentUserName(),
+                                  style: GoogleFonts.blinker(
+                                    fontSize: 24,
+                                    fontWeight: FontWeight.w600,
+                                    color: const Color.fromRGBO(56, 15, 67, 1.0),
+                                  ),
+                                  overflow: TextOverflow.ellipsis,
+                                  maxLines: 1,//  text overflow
+                                ),
                               )
+
                             ],
                           ),
                         ],
@@ -128,14 +137,6 @@ class _HomeScreenState extends State<HomeScreen> {
                                 ),
                               ),
                             ],
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.only(right: 4.0),
-                            child: Image.asset(
-                              'lib/assets/images/person.png',
-                              fit: BoxFit.cover,
-                              scale: 1.1,
-                            ),
                           ),
                         ],
                       ),

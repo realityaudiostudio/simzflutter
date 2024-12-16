@@ -1,10 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
+//import 'package:google_fonts/google_fonts.dart';
 import 'package:iconsax/iconsax.dart'; // Ensure you have the iconsax package added in pubspec.yaml
+import 'package:iconsax_plus/iconsax_plus.dart';
+import 'package:lottie/lottie.dart';
+import 'package:simz_academy/models/student_model/badge_model.dart';
+import 'package:simz_academy/models/student_model/certificate_model.dart';
 //import 'package:iconsax_plus/iconsax_plus.dart';
 import 'package:simz_academy/views/UIHelper/home_ui_helper.dart';
 import 'package:simz_academy/controllers/constants/supabase_functions.dart';
 import 'package:simz_academy/views/screens/bottom_nav.dart';
+import 'package:simz_academy/views/screens/edit_profile.dart';
 import 'package:simz_academy/views/screens/login_screen.dart';
 import 'package:simz_academy/views/widgets/common_widgets.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -18,6 +23,42 @@ class ProfileScreen extends StatefulWidget {
 }
 
 class _ProfileScreenState extends State<ProfileScreen> {
+  final BadgeModel _badgeModel = BadgeModel();
+  late CertificateModel _certificateModel;
+  bool _show = false;
+  @override
+  void initState() {
+    super.initState();
+    _certificateModel = CertificateModel(userId: getUserId());
+    _fetchData();
+    Future.delayed(Duration(milliseconds: 750), () {
+      setState(() {
+        _show = true;
+      });
+    });
+  }
+
+  Future<void> _fetchData() async {
+    try {
+      // Fetch certificates
+      final certificatesResult = await CertificateModel.fetchCertificates();
+
+      // Fetch badges
+      await _badgeModel.getBadge();
+
+      // Update state
+      setState(() {
+        if (certificatesResult != null) {
+          _certificateModel = certificatesResult;
+          debugPrint(
+              "Certificates loaded: ${_certificateModel.certificateName.length}");
+        }
+      });
+    } catch (e) {
+      debugPrint("Error fetching data: $e");
+    }
+  }
+
   void _launchURL(Uri uri, bool inApp) async {
     try {
       if (await canLaunchUrl(uri)) {
@@ -152,11 +193,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           width: 80.0,
                           decoration: BoxDecoration(
                             shape: BoxShape.circle,
-                            image: DecorationImage(
-                              image: AssetImage('lib/assets/images/person.png'),
-                              fit: BoxFit.cover,
-                            ),
                           ),
+                          child: Icon(IconsaxPlusBold.user_square, size: 40.0,color: Colors.white,),
                         ),
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -170,31 +208,31 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                 Color.fromRGBO(251, 246, 253, 1),
                               ),
                             ),
-                            SizedBox(
-                              width: 200.0,
-                              child: Text(
-                                maxLines: 1,
-                                overflow: TextOverflow.ellipsis,
-                                getCurrentUserId(context),
-                                style: GoogleFonts.blinker(
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w400,
-                                  color: Color.fromRGBO(251, 246, 253, 1),
-                                ),
-                              ),
-                            ),
+                            // SizedBox(
+                            //   width: 200.0,
+                            //   child: Text(
+                            //     maxLines: 1,
+                            //     overflow: TextOverflow.ellipsis,
+                            //     getCurrentUserId(context),
+                            //     style: GoogleFonts.blinker(
+                            //       fontSize: 16,
+                            //       fontWeight: FontWeight.w400,
+                            //       color: Color.fromRGBO(251, 246, 253, 1),
+                            //     ),
+                            //   ),
+                            // ),
                             HomeUiHelper().customText(
                               getCurrentUserEmail(),
                               16,
                               FontWeight.w400,
                               Color.fromRGBO(251, 246, 253, 1),
                             ),
-                            HomeUiHelper().customText(
-                              getCurrentUserPhone(),
-                              16,
-                              FontWeight.w400,
-                              Color.fromRGBO(251, 246, 253, 1),
-                            ),
+                            // HomeUiHelper().customText(
+                            //   getCurrentUserPhone(),
+                            //   16,
+                            //   FontWeight.w400,
+                            //   Color.fromRGBO(251, 246, 253, 1),
+                            // ),
                           ],
                         ),
                       ],
@@ -208,30 +246,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     //SizedBox(width: 16.0),
                     TextButton(
                       onPressed: () {
-                        showDialog(
-                          context: context,
-                          builder: (context) {
-                            return AlertDialog(
-                              title: Text(
-                                "Will be available soon",
-                                maxLines: 3,
-                              ),
-                              actions: [
-                                TextButton(
-                                  onPressed: () {
-                                    Navigator.pop(context);
-                                  },
-                                  child: Text(
-                                    'Close',
-                                    style: TextStyle(
-                                      color: Color.fromRGBO(
-                                          56, 15, 67, 1), // Set the text color
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            );
-                          },
+                        Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder: (context) => EditProfile(),
+                          ),
                         );
                       },
                       child: Row(
@@ -327,152 +345,153 @@ class _ProfileScreenState extends State<ProfileScreen> {
 // Badges gained section below  vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
 
                 SizedBox(height: 16.0),
-                HomeUiHelper().customText("Badges Gained", 20, FontWeight.w600,
-                    Color.fromRGBO(56, 15, 67, 1)),
+                HomeUiHelper().customText(
+                  "Badges Gained",
+                  20,
+                  FontWeight.w600,
+                  const Color.fromRGBO(56, 15, 67, 1),
+                ),
                 SizedBox(height: 16.0),
                 Container(
-                  padding: EdgeInsets.all(16.0),
-                  child: Column(
-                    children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          InkWell(
-                            onTap: () {
-                              // Do something when the user taps on the badge
+                  //height: 150, // Fixed height for the badge section
+                  padding: const EdgeInsets.all(16.0),
+                  child: _badgeModel.badgeName.isNotEmpty
+                      ? SizedBox(
+                          height:
+                              150, // Limit ListView's height to avoid overflow
+                          child: ListView.builder(
+                            scrollDirection: Axis.horizontal,
+                            itemCount: _badgeModel.badgeName.length,
+                            itemBuilder: (ctx, index) {
+                              final badge = _badgeModel.badgeName[index];
+                              return Padding(
+                                padding:
+                                    const EdgeInsets.symmetric(horizontal: 8.0),
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Image.asset(
+                                      'lib/assets/images/award.png',
+                                      width: 100.0,
+                                      height: 100.0,
+                                      fit: BoxFit.contain,
+                                    ),
+                                    SizedBox(height: 8.0),
+                                    Text(
+                                      badge,
+                                      style: const TextStyle(
+                                        fontSize: 15,
+                                        fontWeight: FontWeight.w600,
+                                        color: Color.fromRGBO(27, 60, 95, 1),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              );
                             },
-                            child: Column(
-                              children: const [
-                                Image(
-                                  image:
-                                      AssetImage('lib/assets/images/award.png'),
-                                  width: 100.0,
-                                  height: 100.0,
-                                ),
-                                Text(
-                                  'Amethyst \nApprentice',
-                                  style: TextStyle(
-                                    fontSize: 15,
-                                    fontWeight: FontWeight.w600,
-                                    color: Color.fromRGBO(27, 60, 95, 1),
-                                  ),
-                                ),
-                              ],
-                            ),
                           ),
-                        ],
-                      ),
-                      SizedBox(height: 16.0),
-                    ],
-                  ),
+                        )
+                      : Center(
+                          child: _show
+                              ? HomeUiHelper().customText(
+                                  'No badges found',
+                                  20,
+                                  FontWeight.w400,
+                                  Color.fromRGBO(56, 15, 67, 1),
+                                )
+                              : CircularProgressIndicator(),
+                        ),
                 ),
 
 // Badges gained section above  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 // Certificates earned section below  vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
 
                 SizedBox(height: 16.0),
-                HomeUiHelper().customText("Certificates Earned", 20,
-                    FontWeight.w600, Color.fromRGBO(56, 15, 67, 1)),
+                HomeUiHelper().customText(
+                  "Certificates Gained",
+                  20,
+                  FontWeight.w600,
+                  const Color.fromRGBO(56, 15, 67, 1),
+                ),
                 SizedBox(height: 16.0),
                 Container(
-                  padding: EdgeInsets.all(16.0),
-                  child: Column(
-                    children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          InkWell(
-                            onTap: () {
-                              // Do something when the user taps on the badge
-                            },
-                            child: Column(
-                              children: const [
-                                Image(
-                                  image: AssetImage(
-                                      'lib/assets/images/document-download.png'),
-                                  width: 100.0,
-                                  height: 100.0,
-                                ),
-                                SizedBox(
-                                  width: 100.0,
-                                  child: Text(
-                                    'Trinity Certificate Keyboard',
-                                    textAlign: TextAlign.center,
-                                    overflow: TextOverflow.ellipsis,
-                                    maxLines: 4,
-                                    style: TextStyle(
-                                      fontSize: 15,
-                                      fontWeight: FontWeight.w600,
-                                      color: Color.fromRGBO(27, 60, 95, 1),
-                                    ),
+                  padding: const EdgeInsets.all(16.0),
+                  child: _certificateModel.certificateName.isNotEmpty
+                      ? SizedBox(
+                          height: 200, // Limit ListView's height
+                          child: ListView.builder(
+                            scrollDirection: Axis.horizontal,
+                            itemCount: _certificateModel.certificateName.length,
+                            itemBuilder: (ctx, index) {
+                              final certificateName =
+                                  _certificateModel.certificateName[index];
+                              final certificateUrl =
+                                  _certificateModel.certificateUrl[index];
+
+                              return Padding(
+                                padding:
+                                    const EdgeInsets.symmetric(horizontal: 8.0),
+                                child: InkWell(
+                                  onTap: () {
+                                    // Open the certificate URL in the browser
+                                    _launchURL(
+                                        Uri.parse(certificateUrl), false);
+                                  },
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Image.asset(
+                                        'lib/assets/images/document-download.png', // Replace with your certificate icon
+                                        width: 100.0,
+                                        height: 100.0,
+                                        fit: BoxFit.contain,
+                                      ),
+                                      SizedBox(height: 8.0),
+                                      Container(
+                                        width:
+                                            150, // Fixed width to control text layout
+                                        height:
+                                            60, // Fixed height to limit vertical space
+                                        alignment: Alignment.center,
+                                        child: Text(
+                                          certificateName,
+                                          textAlign: TextAlign.center,
+                                          maxLines: 5, // Allow up to 5 lines
+                                          overflow: TextOverflow
+                                              .ellipsis, // Add ellipsis if text overflows
+                                          style: const TextStyle(
+                                            fontSize: 15,
+                                            fontWeight: FontWeight.w600,
+                                            color:
+                                                Color.fromRGBO(27, 60, 95, 1),
+                                          ),
+                                        ),
+                                      ),
+                                    ],
                                   ),
                                 ),
-                              ],
-                            ),
-                          ),
-                          InkWell(
-                            onTap: () {
-                              // Do something when the user taps on the badge
+                              );
                             },
-                            child: Column(
-                              children: const [
-                                Image(
-                                  image: AssetImage(
-                                      'lib/assets/images/document-download.png'),
-                                  width: 100.0,
-                                  height: 100.0,
-                                ),
-                                SizedBox(
-                                  width: 100.0,
-                                  child: Text(
-                                    'Simz Excellence Certificate',
-                                    textAlign: TextAlign.center,
-                                    overflow: TextOverflow.ellipsis,
-                                    maxLines: 4,
-                                    style: TextStyle(
-                                      fontSize: 15,
-                                      fontWeight: FontWeight.w600,
-                                      color: Color.fromRGBO(27, 60, 95, 1),
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
                           ),
-                          InkWell(
-                            onTap: () {
-                              // Do something when the user taps on the badge
-                            },
-                            child: Column(
-                              children: const [
-                                Image(
-                                  image: AssetImage(
-                                      'lib/assets/images/document-download.png'),
-                                  width: 100.0,
-                                  height: 100.0,
+                        )
+                      : Center(
+                          child: Column(
+                            children: [
+                              if (_show)
+                                Lottie.asset(
+                                  'lib/assets/animations/not_found.json',
+                                  width: 200.0,
+                                  height: 200.0,
                                 ),
-                                SizedBox(
-                                  width: 100.0,
-                                  child: Text(
-                                    'Guitar Tuna Competition blah blah blah',
-                                    textAlign: TextAlign.center,
-                                    overflow: TextOverflow.ellipsis,
-                                    maxLines: 4,
-                                    style: TextStyle(
-                                      fontSize: 15,
-                                      fontWeight: FontWeight.w600,
-                                      color: Color.fromRGBO(27, 60, 95, 1),
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
+                              HomeUiHelper().customText(
+                                'No certificates found',
+                                20,
+                                FontWeight.w400,
+                                const Color.fromRGBO(56, 15, 67, 1),
+                              ),
+                            ],
                           ),
-                        ],
-                      ),
-                      SizedBox(height: 32.0),
-                    ],
-                  ),
+                        ),
                 ),
 
 // Certificates earned section above  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -507,46 +526,38 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                 Uri.parse(
                                     'https://www.facebook.com/simzacademy/'),
                                 false),
-                            child: Image(
-                              image:
-                                  AssetImage('lib/assets/images/facebook.png'),
-                              width: 50.0,
-                              height: 50.0,
-                            ),
+                            child: Lottie.asset(
+                                'lib/assets/animations/facebook.json',
+                                width: 48.0,
+                                height: 48.0),
                           ),
                           InkWell(
                             onTap: () => _launchURL(
                                 Uri.parse('https://simzmuzic.com/'), false),
-                            child: Image(
-                              image:
-                                  AssetImage('lib/assets/images/discord.png'),
-                              width: 50.0,
-                              height: 50.0,
-                            ),
+                            child: Lottie.asset(
+                                'lib/assets/animations/internet.json',
+                                width: 55.0,
+                                height: 55.0),
                           ),
                           InkWell(
                             onTap: () => _launchURL(
                                 Uri.parse(
                                     'https://www.instagram.com/simzacademy/'),
                                 false),
-                            child: Image(
-                              image:
-                                  AssetImage('lib/assets/images/instagram.png'),
-                              width: 50.0,
-                              height: 50.0,
-                            ),
+                            child: Lottie.asset(
+                                'lib/assets/animations/instagram.json',
+                                width: 65.0,
+                                height: 65.0),
                           ),
                           InkWell(
                             onTap: () => _launchURL(
                                 Uri.parse(
                                     'https://api.whatsapp.com/send/?phone=917907386458&text=Hello+Simz+Academy%2C+I+would+like+to+know+more+about+your+courses.&type=phone_number&app_absent=0'),
                                 false),
-                            child: Image(
-                              image:
-                                  AssetImage('lib/assets/images/whatsapp.png'),
-                              width: 50.0,
-                              height: 50.0,
-                            ),
+                            child: Lottie.asset(
+                                'lib/assets/animations/whatsapp1.json',
+                                width: 40.0,
+                                height: 40.0),
                           ),
                         ],
                       ),
@@ -597,12 +608,5 @@ class _ProfileScreenState extends State<ProfileScreen> {
         ),
       ),
     );
-  }
-
-  String getCurrentUserPhone() {
-    final supabase = Supabase.instance.client;
-    final user = supabase.auth.currentUser?.userMetadata!['phone'];
-    //print(user);
-    return user ?? 'No phone number found';
   }
 }

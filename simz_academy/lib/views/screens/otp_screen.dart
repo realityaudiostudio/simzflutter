@@ -1,5 +1,6 @@
 // ignore_for_file: use_build_context_synchronously
 
+import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_otp_text_field/flutter_otp_text_field.dart';
 import 'package:simz_academy/views/UIHelper/home_ui_helper.dart';
@@ -7,6 +8,9 @@ import 'package:simz_academy/controllers/constants/screen_details.dart';
 //import 'package:simz_academy/constants/supabase_functions.dart';
 import 'package:simz_academy/views/screens/bottom_nav.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
+
+import '../../controllers/functions/student_details_controller.dart';
+import '../../models/student_model/student_details_model.dart';
 
 class OtpScreen extends StatefulWidget {
   final email;
@@ -46,7 +50,9 @@ class _OtpScreenState extends State<OtpScreen> {
                 height: 30,
               ),
               Align(
-                alignment: ScreenDetails().getScreenWidth(context) > 800 ? Alignment.center : Alignment.topLeft,
+                alignment: ScreenDetails().getScreenWidth(context) > 800
+                    ? Alignment.center
+                    : Alignment.topLeft,
                 child: Padding(
                   padding: const EdgeInsets.only(left: 8.0),
                   child: HomeUiHelper().customText('Enter the Code ', 24,
@@ -75,22 +81,39 @@ class _OtpScreenState extends State<OtpScreen> {
               ),
               //Resend OTP button
               InkWell(
-                onTap: ()async{
+                onTap: () async {
                   setState(() {
-                    submitted=false;
+                    submitted = false;
                   });
-                  final response = await Supabase.instance.client.auth.resend(type: OtpType.signup, email: widget.email.toString());
+                  final response = await Supabase.instance.client.auth.resend(
+                      type: OtpType.signup, email: widget.email.toString());
                   //if OTP is not sent, show error message
-                  if(response.messageId==null){
-                    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                      content: Text('Error in sending OTP. Try again later'),
-                    ));
+                  if (response.messageId == null) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        elevation: 0,
+                        backgroundColor: Colors.transparent,
+                        content: AwesomeSnackbarContent(
+                          title: 'Error sending OTP',
+                          message: 'Please try again later',
+                          contentType: ContentType.failure,
+                        ),
+                      ),
+                    );
                   }
                   //else show success message
-                  else{
-                    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                      content: Text('OTP sent successfully'),
-                    ));
+                  else {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        elevation: 0,
+                        backgroundColor: Colors.transparent,
+                        content: AwesomeSnackbarContent(
+                          title: 'OTP sent successfully',
+                          message: 'Please check your mail',
+                          contentType: ContentType.success,
+                        ),
+                      ),
+                    );
                   }
                 },
                 child: HomeUiHelper().customText(
@@ -113,31 +136,61 @@ class _OtpScreenState extends State<OtpScreen> {
                       ),
                     ),
                   ),
-                  onPressed: () async{
+                  onPressed: () async {
                     setState(() {
                       submitted = true;
                     });
-                    try{
-                      final response = await Supabase.instance.client.auth.verifyOTP(type: OtpType.email , token: otp, email: widget.email.toString());
-                    // on verification success, navigate to the home screen
-                    if(response.session!=null){
-                      Navigator.pushReplacement(
-                        context,
-                        MaterialPageRoute(builder: (context) => const BottomNav()),
+                    try {
+                      final response = await Supabase.instance.client.auth
+                          .verifyOTP(
+                              type: OtpType.email,
+                              token: otp,
+                              email: widget.email.toString());
+                      // on verification success, navigate to the home screen
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          elevation: 0,
+                          backgroundColor: Colors.transparent,
+                          content: AwesomeSnackbarContent(
+                            messageTextStyle: TextStyle(
+                              fontSize: 10,
+                            ),
+                            title: 'Success',
+                            message: 'Account created for ${widget.email}',
+                            contentType: ContentType.success,
+                          ),
+                        ),
                       );
-                    }
-                    //else show error message
-                    else{
-                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                        content: Text('Error: Check the OTP and try again'),
-                      ));
-                    }}
-                    catch(e){
+                      if (response.session != null) {
+                        saveStudentDetails();
+                        Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const BottomNav()),
+                        );
+                      }
+                      //else show error message
+                      else {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            elevation: 0,
+                            backgroundColor: Colors.transparent,
+                            content: AwesomeSnackbarContent(
+                              title: 'Error',
+                              message: 'Check the OTP and try again',
+                              contentType: ContentType.failure,
+                            ),
+                          ),
+                        );
+                      }
+                    } catch (e) {
                       debugPrint(e.toString());
                     }
                   },
-                  child: (submitted)?CircularProgressIndicator():HomeUiHelper().customText(
-                      'Verify', 24, FontWeight.w600, Color(0xFFECD7F7)),
+                  child: (submitted)
+                      ? CircularProgressIndicator()
+                      : HomeUiHelper().customText(
+                          'Verify', 24, FontWeight.w600, Color(0xFFECD7F7)),
                 ),
               ),
             ],
@@ -146,4 +199,31 @@ class _OtpScreenState extends State<OtpScreen> {
       ),
     ));
   }
+}
+
+Future<void> saveStudentDetails() async {
+  final currentUserId = Supabase.instance.client.auth.currentUser?.id;
+
+  if (currentUserId == null) {
+    debugPrint('User not logged in!');
+    return;
+  }
+
+  // Create an instance of the model
+  StudentDetails studentDetails = StudentDetails(
+    userId: currentUserId,
+    isStudent: true,
+    lessons: [],
+    courses: [],
+    attendanceDetails: {},
+    yearAdm: null,
+    prevLearn: [],
+    currLearn: [],
+    feeDue: null, // Optional field
+    badges: [], // Optional field
+    certificates: [], // Optional field
+  );
+
+  // Call the function to insert the data
+  await sendStudentDetailsToSupabase(studentDetails);
 }

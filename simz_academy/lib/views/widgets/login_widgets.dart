@@ -1,3 +1,4 @@
+import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:iconsax/iconsax.dart';
@@ -69,7 +70,8 @@ class _LoginSmallScreenState extends State<LoginSmallScreen> {
                     'Email Address', 16, FontWeight.w600, Color(0xFF380F43)),
                 SizedBox(height: 5),
                 ClipRRect(
-                  borderRadius: BorderRadius.circular(10), // Apply border radius to clip child
+                  borderRadius: BorderRadius.circular(
+                      10), // Apply border radius to clip child
                   child: TextField(
                     decoration: InputDecoration(
                       filled: true,
@@ -79,7 +81,9 @@ class _LoginSmallScreenState extends State<LoginSmallScreen> {
                         color: Color.fromARGB(255, 209, 190, 219),
                       ),
                       border: InputBorder.none, // No border
-                      contentPadding: EdgeInsets.symmetric(horizontal: 16, vertical: 12), // Adjust padding if needed
+                      contentPadding: EdgeInsets.symmetric(
+                          horizontal: 16,
+                          vertical: 12), // Adjust padding if needed
                     ),
                     controller: emailController,
                   ),
@@ -97,24 +101,23 @@ class _LoginSmallScreenState extends State<LoginSmallScreen> {
                   child: TextField(
                     obscureText: !isPasswordVisible,
                     decoration: InputDecoration(
-                      suffixIcon: IconButton(
-                        onPressed: () {
-                          setState(() {
-                            isPasswordVisible = !isPasswordVisible;
-                          });
-                        },
-                        icon: (isPasswordVisible)
-                            ? Icon(Iconsax.eye)
-                            : Icon(Iconsax.eye_slash),
-                      ),
-                      filled: true,
-                      fillColor: Color(0xFFECD7F7),
-                      hintText: 'Enter your Password',
-                      hintStyle: TextStyle(
-                        color: Color.fromARGB(255, 209, 190, 219),
-                      ),
-                      border: InputBorder.none
-                    ),
+                        suffixIcon: IconButton(
+                          onPressed: () {
+                            setState(() {
+                              isPasswordVisible = !isPasswordVisible;
+                            });
+                          },
+                          icon: (isPasswordVisible)
+                              ? Icon(Iconsax.eye)
+                              : Icon(Iconsax.eye_slash),
+                        ),
+                        filled: true,
+                        fillColor: Color(0xFFECD7F7),
+                        hintText: 'Enter your Password',
+                        hintStyle: TextStyle(
+                          color: Color.fromARGB(255, 209, 190, 219),
+                        ),
+                        border: InputBorder.none),
                     controller: _passwordController,
                   ),
                 ),
@@ -157,24 +160,76 @@ class _LoginSmallScreenState extends State<LoginSmallScreen> {
                           email: emailController.text,
                           password: _passwordController.text,
                         );
-                        sm.showSnackBar(SnackBar(
-                          content:
-                              Text('Logged In: ${authResponse.user!.email!}'),
-                        ));
+                        sm.showSnackBar(
+                          SnackBar(
+                            backgroundColor: Colors.transparent,
+                            elevation: 0,
+                            content: AwesomeSnackbarContent(
+                              messageTextStyle: TextStyle(fontSize: 10),
+                              title: 'Success',
+                              message:
+                                  'Logged In: ${authResponse.user!.email!}',
+                              contentType: ContentType.success,
+                            ),
+                          ),
+                        );
                         Navigator.of(context).pushReplacement(
                             MaterialPageRoute(builder: (context) {
                           return BottomNav();
                         }));
-                      } catch (error) {
+                      } on AuthException {
+                        setState(() {
+                          submitted = false;
+                        });
                         sm.showSnackBar(
-                            SnackBar(content: Text('Error: $error')));
+                          SnackBar(
+                            backgroundColor: Colors.transparent,
+                            elevation: 0,
+                            content: AwesomeSnackbarContent(
+                              title: 'Error',
+                              message: 'Invalid login credentials',
+                              contentType: ContentType.failure,
+                            ),
+                          ),
+                        );
+                        debugPrint('Invalid login credentials');
+                      } catch (error) {
+                        setState(() {
+                          submitted = false;
+                        });
+                        sm.showSnackBar(
+                          SnackBar(
+                            backgroundColor: Colors.transparent,
+                            elevation: 0,
+                            content: AwesomeSnackbarContent(
+                              title: 'Error',
+                              message: 'An error occurred',
+                              contentType: ContentType.failure,
+                            ),
+                          ),
+                        );
                         debugPrint(error.toString());
                       }
                     } else {
-                      sm.showSnackBar(SnackBar(
-                        content: Text(
-                            'Please Correct the following mistakes: \n${condition.toString().replaceAll('[', '').replaceAll(']', '').replaceAll(', ', '\n')}'),
-                      ));
+                      setState(() {
+                        submitted = false;
+                      });
+                      sm.showSnackBar(
+                        SnackBar(
+                          backgroundColor: Colors.transparent,
+                          elevation: 0,
+                          content: AwesomeSnackbarContent(
+                            title: 'Invalid Format',
+                            messageTextStyle: TextStyle(fontSize: 10),
+                            message: condition
+                                .toString()
+                                .replaceAll('[', '')
+                                .replaceAll(']', '')
+                                .replaceAll(', ', '\n'),
+                            contentType: ContentType.warning,
+                          ),
+                        ),
+                      );
                     }
                   },
                   style: ElevatedButton.styleFrom(
@@ -187,7 +242,9 @@ class _LoginSmallScreenState extends State<LoginSmallScreen> {
                     ),
                   ),
                   child: (submitted)
-                      ? CircularProgressIndicator()
+                      ? CircularProgressIndicator(
+                          color: Colors.white,
+                        )
                       : HomeUiHelper().customText(
                           'Login', 20, FontWeight.w600, Color(0xFFFFFFFF)),
                 ),
@@ -232,7 +289,6 @@ class _LoginSmallScreenState extends State<LoginSmallScreen> {
   }
 }
 
-
 class LoginLargeScreen extends StatefulWidget {
   const LoginLargeScreen({super.key});
 
@@ -257,8 +313,10 @@ class _LoginLargeScreenState extends State<LoginLargeScreen> {
           child: GridView(
             shrinkWrap: true,
             gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 2, // Since we want the image and form in one column
-              childAspectRatio: 1, // Adjust this to balance image and form sizes
+              crossAxisCount:
+                  2, // Since we want the image and form in one column
+              childAspectRatio:
+                  1, // Adjust this to balance image and form sizes
             ),
             children: [
               // First Container for the image
@@ -285,11 +343,11 @@ class _LoginLargeScreenState extends State<LoginLargeScreen> {
                   const SizedBox(height: 10),
 
                   // Email field
-                  HomeUiHelper().customText(
-                      'Email Address', 16, FontWeight.w600, const Color(0xFF380F43)),
+                  HomeUiHelper().customText('Email Address', 16,
+                      FontWeight.w600, const Color(0xFF380F43)),
                   const SizedBox(height: 5),
                   SizedBox(
-                    width: width/2.5,
+                    width: width / 2.5,
                     child: ClipRRect(
                       borderRadius: BorderRadius.circular(10),
                       child: TextField(
@@ -314,7 +372,7 @@ class _LoginLargeScreenState extends State<LoginLargeScreen> {
                       'Password', 16, FontWeight.w600, const Color(0xFF380F43)),
                   const SizedBox(height: 5),
                   SizedBox(
-                    width: width/2.5,
+                    width: width / 2.5,
                     child: ClipRRect(
                       borderRadius: BorderRadius.circular(10),
                       child: TextField(
@@ -347,7 +405,7 @@ class _LoginLargeScreenState extends State<LoginLargeScreen> {
 
                   // Forgot password link
                   Padding(
-                    padding:  EdgeInsets.only(right: width/11.5),
+                    padding: EdgeInsets.only(right: width / 11.5),
                     child: Align(
                       alignment: Alignment.centerRight,
                       child: InkWell(
@@ -358,8 +416,8 @@ class _LoginLargeScreenState extends State<LoginLargeScreen> {
                               }),
                             );
                           },
-                          child: HomeUiHelper().customText(
-                              'Forgot Password?', 16, FontWeight.w500, const Color(0xFF380F43))),
+                          child: HomeUiHelper().customText('Forgot Password?',
+                              16, FontWeight.w500, const Color(0xFF380F43))),
                     ),
                   ),
 
@@ -367,7 +425,7 @@ class _LoginLargeScreenState extends State<LoginLargeScreen> {
 
                   // Login button
                   SizedBox(
-                    width: width/2.5,
+                    width: width / 2.5,
                     child: ElevatedButton(
                       onPressed: () async {
                         setState(() {
@@ -382,27 +440,82 @@ class _LoginLargeScreenState extends State<LoginLargeScreen> {
 
                         if (condition.isEmpty) {
                           try {
-                            final authResponse = await supabase.auth.signInWithPassword(
+                            final authResponse =
+                                await supabase.auth.signInWithPassword(
                               email: emailController.text,
                               password: _passwordController.text,
                             );
-                            sm.showSnackBar(SnackBar(
-                              content: Text('Logged In: ${authResponse.user!.email!}'),
-                            ));
+                            sm.showSnackBar(
+                              SnackBar(
+                                backgroundColor: Colors.transparent,
+                                elevation: 0,
+                                content: AwesomeSnackbarContent(
+                                  messageTextStyle: TextStyle(fontSize: 10),
+                                  title: 'Success',
+                                  message:
+                                      'Logged In: ${authResponse.user!.email!}',
+                                  contentType: ContentType.success,
+                                ),
+                              ),
+                            );
                             Navigator.of(context).pushReplacement(
                               MaterialPageRoute(builder: (context) {
                                 return const BottomNav();
                               }),
                             );
+                          } on AuthException {
+                            setState(() {
+                              submitted = false;
+                            });
+                            sm.showSnackBar(
+                              SnackBar(
+                                backgroundColor: Colors.transparent,
+                                elevation: 0,
+                                content: AwesomeSnackbarContent(
+                                  title: 'Error',
+                                  message: 'Invalid login credentials',
+                                  contentType: ContentType.failure,
+                                ),
+                              ),
+                            );
+                            debugPrint('Invalid login credentials');
                           } catch (error) {
-                            sm.showSnackBar(SnackBar(content: Text('Error: $error')));
+                            setState(() {
+                              submitted = false;
+                            });
+                            sm.showSnackBar(
+                              SnackBar(
+                                backgroundColor: Colors.transparent,
+                                elevation: 0,
+                                content: AwesomeSnackbarContent(
+                                  title: 'Error',
+                                  message: 'An error occurred',
+                                  contentType: ContentType.failure,
+                                ),
+                              ),
+                            );
                             debugPrint(error.toString());
                           }
                         } else {
-                          sm.showSnackBar(SnackBar(
-                            content: Text(
-                                'Please Correct the following mistakes: \n${condition.toString().replaceAll('[', '').replaceAll(']', '').replaceAll(', ', '\n')}'),
-                          ));
+                          setState(() {
+                            submitted = false;
+                          });
+                          sm.showSnackBar(
+                            SnackBar(
+                              backgroundColor: Colors.transparent,
+                              elevation: 0,
+                              content: AwesomeSnackbarContent(
+                                title: 'Invalid Format',
+                                messageTextStyle: TextStyle(fontSize: 10),
+                                message: condition
+                                    .toString()
+                                    .replaceAll('[', '')
+                                    .replaceAll(']', '')
+                                    .replaceAll(', ', '\n'),
+                                contentType: ContentType.warning,
+                              ),
+                            ),
+                          );
                         }
                       },
                       style: ElevatedButton.styleFrom(
@@ -415,9 +528,11 @@ class _LoginLargeScreenState extends State<LoginLargeScreen> {
                         ),
                       ),
                       child: (submitted)
-                          ? const CircularProgressIndicator()
-                          : HomeUiHelper().customText(
-                          'Login', 20, FontWeight.w600, const Color(0xFFFFFFFF)),
+                          ? const CircularProgressIndicator(
+                              color: Colors.white,
+                            )
+                          : HomeUiHelper().customText('Login', 20,
+                              FontWeight.w600, const Color(0xFFFFFFFF)),
                     ),
                   ),
 
@@ -425,7 +540,7 @@ class _LoginLargeScreenState extends State<LoginLargeScreen> {
 
                   // Navigate to Sign Up link
                   Padding(
-                    padding: EdgeInsets.only(right: width/11.5),
+                    padding: EdgeInsets.only(right: width / 11.5),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
+import 'package:lottie/lottie.dart';
 //import 'package:iconsax_plus/iconsax_plus.dart';
 import 'package:simz_academy/views/UIHelper/home_ui_helper.dart';
 import '../../models/lesson_model/track_lesson_model.dart';
@@ -48,8 +49,44 @@ class _TrackLessonScreenState extends State<TrackLessonScreen> {
       );
     }
 
-    if (trackLessonModel.previousLessons.isEmpty) {
-      return const Center(child: Text('No previous lessons found.'));
+    if (trackLessonModel.previousLessons.isEmpty && trackLessonModel.currentLessons.isEmpty) {
+      return Center(
+        child: Container(
+          width: double.infinity,
+          color: Colors.white,
+          child: DefaultTextStyle(
+            style: TextStyle(
+              color: Color.fromRGBO(56, 15, 67, 1),
+              fontSize: 16,
+            ),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Lottie.asset('lib/assets/animations/nothing_here.json',
+                    height: 200, width: 200),
+                Text('No lessons found.'),
+                SizedBox(height: 15,),
+                TextButton(
+                  style: ButtonStyle(
+                    backgroundColor: WidgetStateProperty.all<Color>(
+                        Color.fromRGBO(105,42,123,1)),
+                    padding: WidgetStateProperty.all<EdgeInsetsGeometry>(
+                        EdgeInsets.all(10)),
+                    shape: WidgetStateProperty.all<RoundedRectangleBorder>(
+                      RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(24),
+                      ),
+                    ),
+                  ),
+                    onPressed: (){
+                  Navigator.pop(context);
+                },
+                    child: HomeUiHelper().customText('Go back', 18, FontWeight.w400, Colors.white))
+              ],
+            ),
+          ),
+        ),
+      );
     }
 
     return Scaffold(

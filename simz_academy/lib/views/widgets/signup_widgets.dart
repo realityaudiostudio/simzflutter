@@ -1,3 +1,4 @@
+import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:iconsax/iconsax.dart';
@@ -19,7 +20,8 @@ class _SignUpSmallScreenState extends State<SignUpSmallScreen> {
   final TextEditingController _passwordController = TextEditingController();
   final TextEditingController _phoneNumberController = TextEditingController();
   final TextEditingController _userNameController = TextEditingController();
-  final TextEditingController _confirmPasswordController = TextEditingController();
+  final TextEditingController _confirmPasswordController =
+      TextEditingController();
   bool isPasswordVisible = false;
   final supabase = Supabase.instance.client;
   bool submitted = false;
@@ -72,15 +74,13 @@ class _SignUpSmallScreenState extends State<SignUpSmallScreen> {
                   child: TextField(
                       controller: emailController,
                       decoration: InputDecoration(
-                        filled: true,
-                        fillColor: const Color(0xFFECD7F7),
-                        hintText: 'Enter your email address',
-                        hintStyle: const TextStyle(
-                          color: Color.fromARGB(255, 209, 190, 219),
-                        ),
-                        border: InputBorder.none
-                      )
-                  ),
+                          filled: true,
+                          fillColor: const Color(0xFFECD7F7),
+                          hintText: 'Enter your email address',
+                          hintStyle: const TextStyle(
+                            color: Color.fromARGB(255, 209, 190, 219),
+                          ),
+                          border: InputBorder.none)),
                 ),
 
                 const SizedBox(height: 10),
@@ -102,14 +102,13 @@ class _SignUpSmallScreenState extends State<SignUpSmallScreen> {
                   child: TextField(
                     controller: _userNameController,
                     decoration: InputDecoration(
-                      filled: true,
-                      fillColor: const Color(0xFFECD7F7),
-                      hintText: 'Enter your full name',
-                      hintStyle: const TextStyle(
-                        color: Color.fromARGB(255, 209, 190, 219),
-                      ),
-                      border: InputBorder.none
-                    ),
+                        filled: true,
+                        fillColor: const Color(0xFFECD7F7),
+                        hintText: 'Enter your full name',
+                        hintStyle: const TextStyle(
+                          color: Color.fromARGB(255, 209, 190, 219),
+                        ),
+                        border: InputBorder.none),
                   ),
                 ),
                 const SizedBox(height: 10),
@@ -129,14 +128,13 @@ class _SignUpSmallScreenState extends State<SignUpSmallScreen> {
                   child: TextField(
                     controller: _phoneNumberController,
                     decoration: InputDecoration(
-                      filled: true,
-                      fillColor: const Color(0xFFECD7F7),
-                      hintText: 'Enter your Phone Number',
-                      hintStyle: const TextStyle(
-                        color: Color.fromARGB(255, 209, 190, 219),
-                      ),
-                      border: InputBorder.none
-                    ),
+                        filled: true,
+                        fillColor: const Color(0xFFECD7F7),
+                        hintText: 'Enter your Phone Number',
+                        hintStyle: const TextStyle(
+                          color: Color.fromARGB(255, 209, 190, 219),
+                        ),
+                        border: InputBorder.none),
                   ),
                 ),
 
@@ -158,24 +156,23 @@ class _SignUpSmallScreenState extends State<SignUpSmallScreen> {
                     controller: _passwordController,
                     obscureText: !isPasswordVisible,
                     decoration: InputDecoration(
-                      suffixIcon: IconButton(
-                        onPressed: () {
-                          setState(() {
-                            isPasswordVisible = !isPasswordVisible;
-                          });
-                        },
-                        icon: isPasswordVisible
-                            ? const Icon(Iconsax.eye)
-                            : const Icon(Iconsax.eye_slash),
-                      ),
-                      filled: true,
-                      fillColor: const Color(0xFFECD7F7),
-                      hintText: 'Enter your Password',
-                      hintStyle: const TextStyle(
-                        color: Color.fromARGB(255, 209, 190, 219),
-                      ),
-                      border: InputBorder.none
-                    ),
+                        suffixIcon: IconButton(
+                          onPressed: () {
+                            setState(() {
+                              isPasswordVisible = !isPasswordVisible;
+                            });
+                          },
+                          icon: isPasswordVisible
+                              ? const Icon(Iconsax.eye)
+                              : const Icon(Iconsax.eye_slash),
+                        ),
+                        filled: true,
+                        fillColor: const Color(0xFFECD7F7),
+                        hintText: 'Enter your Password',
+                        hintStyle: const TextStyle(
+                          color: Color.fromARGB(255, 209, 190, 219),
+                        ),
+                        border: InputBorder.none),
                   ),
                 ),
 
@@ -198,24 +195,23 @@ class _SignUpSmallScreenState extends State<SignUpSmallScreen> {
                     controller: _confirmPasswordController,
                     obscureText: !isPasswordVisible,
                     decoration: InputDecoration(
-                      suffixIcon: IconButton(
-                        onPressed: () {
-                          setState(() {
-                            isPasswordVisible = !isPasswordVisible;
-                          });
-                        },
-                        icon: isPasswordVisible
-                            ? const Icon(Iconsax.eye)
-                            : const Icon(Iconsax.eye_slash),
-                      ),
-                      filled: true,
-                      fillColor: const Color(0xFFECD7F7),
-                      hintText: 'Confirm your Password',
-                      hintStyle: const TextStyle(
-                        color: Color.fromARGB(255, 209, 190, 219),
-                      ),
-                      border: InputBorder.none
-                    ),
+                        suffixIcon: IconButton(
+                          onPressed: () {
+                            setState(() {
+                              isPasswordVisible = !isPasswordVisible;
+                            });
+                          },
+                          icon: isPasswordVisible
+                              ? const Icon(Iconsax.eye)
+                              : const Icon(Iconsax.eye_slash),
+                        ),
+                        filled: true,
+                        fillColor: const Color(0xFFECD7F7),
+                        hintText: 'Confirm your Password',
+                        hintStyle: const TextStyle(
+                          color: Color.fromARGB(255, 209, 190, 219),
+                        ),
+                        border: InputBorder.none),
                   ),
                 ),
 
@@ -235,31 +231,99 @@ class _SignUpSmallScreenState extends State<SignUpSmallScreen> {
                     }
 
                     try {
+                      // Check if user already exists BEFORE attempting to sign up
+                      final existingUserResponse = await Supabase.instance.client.from('user_email').select().eq('email', emailController.text);
+                      debugPrint(existingUserResponse.toString());
+
+                      if (existingUserResponse.isNotEmpty) {
+                        debugPrint('User exists');
+                        resetSubmission();
+                        sm.showSnackBar(
+                          const SnackBar(
+                            elevation: 0,
+                            backgroundColor: Colors.transparent,
+                            content: AwesomeSnackbarContent(
+                              title: 'User Exists',
+                              message: 'User with email already exists',
+                              contentType: ContentType.warning,
+                            ),
+                          ),
+                        );
+                        return;
+                      }
+
                       if (emailController.text.isEmpty &&
                           _phoneNumberController.text.isEmpty) {
-                        sm.showSnackBar(const SnackBar(
-                          content: Text(
-                              'Please provide either an email or phone number'),
-                        ));
+                        resetSubmission();
+                        sm.showSnackBar(
+                          const SnackBar(
+                            elevation: 0,
+                            backgroundColor: Colors.transparent,
+                            content: AwesomeSnackbarContent(
+                              title: 'Invalid Format',
+                              message:
+                                  'Please provide either an email or phone number',
+                              contentType: ContentType.warning,
+                            ),
+                          ),
+                        );
                       } else if (emailController.text.isNotEmpty &&
                           !isEmailValid(emailController.text)) {
-                        sm.showSnackBar(const SnackBar(
-                          content: Text('Please enter a valid email address'),
-                        ));
+                        resetSubmission();
+                        sm.showSnackBar(
+                          SnackBar(
+                            elevation: 0,
+                            backgroundColor: Colors.transparent,
+                            content: AwesomeSnackbarContent(
+                              title: 'Invalid Format',
+                              message: 'Please enter a valid email address',
+                              contentType: ContentType.warning,
+                            ),
+                          ),
+                        );
                       } else if (_passwordController.text.length < 8) {
-                        sm.showSnackBar(const SnackBar(
-                          content: Text(
-                              'Password must be at least 8 characters long'),
-                        ));
+                        resetSubmission();
+                        sm.showSnackBar(
+                          SnackBar(
+                            elevation: 0,
+                            backgroundColor: Colors.transparent,
+                            content: AwesomeSnackbarContent(
+                              title: 'Invalid Format',
+                              message:
+                                  'Password must be at least 8 characters long',
+                              contentType: ContentType.warning,
+                            ),
+                          ),
+                        );
                       } else if (!RegExp(r"[!@#%&*()_+=\-?/<>.,;:\[\]{}|`~]")
                           .hasMatch(_passwordController.text)) {
-                        sm.showSnackBar(const SnackBar(
-                          content: Text(
-                              'Password must contain at least one special character'),
-                        ));
+                        resetSubmission();
+                        sm.showSnackBar(
+                          SnackBar(
+                            elevation: 0,
+                            backgroundColor: Colors.transparent,
+                            content: AwesomeSnackbarContent(
+                              title: 'Invalid Format',
+                              message:
+                                  'Password must contain at least one special character',
+                              contentType: ContentType.warning,
+                            ),
+                          ),
+                        );
                       } else if (_passwordController.text !=
                           _confirmPasswordController.text) {
-                        sm.showSnackBar(const SnackBar(content: Text('Password does not match'),));
+                        resetSubmission();
+                        sm.showSnackBar(
+                          SnackBar(
+                            elevation: 0,
+                            backgroundColor: Colors.transparent,
+                            content: AwesomeSnackbarContent(
+                              title: 'Invalid Format',
+                              message: 'Password does not match',
+                              contentType: ContentType.warning,
+                            ),
+                          ),
+                        );
                       } else {
                         final authResponse = await supabase.auth.signUp(
                           email: emailController.text,
@@ -269,18 +333,40 @@ class _SignUpSmallScreenState extends State<SignUpSmallScreen> {
                             "phone": _phoneNumberController.text
                           },
                         );
-                        sm.showSnackBar(SnackBar(
-                          content: Text(
-                              'Verify your account using OTP that has sent to :  ${authResponse.user!.email!}'),
-                        ));
+                        sm.showSnackBar(
+                          SnackBar(
+                            elevation: 0,
+                            backgroundColor: Colors.transparent,
+                            content: AwesomeSnackbarContent(
+                              messageTextStyle: const TextStyle(
+                                fontSize: 10,
+                              ),
+                              title: 'OTP sent',
+                              message:
+                                  'Verify your account using OTP sent to :  ${authResponse.user!.email!}',
+                              contentType: ContentType.help,
+                            ),
+                          ),
+                        );
                         Navigator.of(context)
                             .push(MaterialPageRoute(builder: (context) {
-                          return  OtpScreen(email: emailController.text);
+                          return OtpScreen(email: emailController.text);
                         }));
                       }
                     } catch (error) {
+                      debugPrint(error.toString());
+                      resetSubmission();
                       sm.showSnackBar(
-                          SnackBar(content: Text('Error signing up: $error')));
+                        SnackBar(
+                          elevation: 0,
+                          backgroundColor: Colors.transparent,
+                          content: AwesomeSnackbarContent(
+                            title: 'An Error occurred',
+                            message: 'Please try again later',
+                            contentType: ContentType.failure,
+                          ),
+                        ),
+                      );
                     }
                   },
                   style: ElevatedButton.styleFrom(
@@ -294,15 +380,15 @@ class _SignUpSmallScreenState extends State<SignUpSmallScreen> {
                   ),
                   child: (submitted)
                       ? const CircularProgressIndicator(
-                    valueColor:
-                    AlwaysStoppedAnimation<Color>(Color(0xFFECD7F7)),
-                  )
+                          valueColor:
+                              AlwaysStoppedAnimation<Color>(Color(0xFFECD7F7)),
+                        )
                       : HomeUiHelper().customText(
-                    'Sign Up',
-                    24,
-                    FontWeight.w700,
-                    Color(0xFFECD7F7),
-                  ),
+                          'Sign Up',
+                          24,
+                          FontWeight.w700,
+                          Color(0xFFECD7F7),
+                        ),
                 ),
 
                 const SizedBox(height: 25),
@@ -341,8 +427,13 @@ class _SignUpSmallScreenState extends State<SignUpSmallScreen> {
       ),
     );
   }
-}
 
+  void resetSubmission() {
+    setState(() {
+      submitted = false;
+    });
+  }
+}
 
 class SignUpLargeScreen extends StatefulWidget {
   const SignUpLargeScreen({super.key});
@@ -356,7 +447,8 @@ class _SignUpLargeScreenState extends State<SignUpLargeScreen> {
   final TextEditingController _passwordController = TextEditingController();
   final TextEditingController _phoneNumberController = TextEditingController();
   final TextEditingController _userNameController = TextEditingController();
-  final TextEditingController _confirmPasswordController = TextEditingController();
+  final TextEditingController _confirmPasswordController =
+      TextEditingController();
   bool isPasswordVisible = false;
   final supabase = Supabase.instance.client;
   bool submitted = false;
@@ -369,10 +461,12 @@ class _SignUpLargeScreenState extends State<SignUpLargeScreen> {
           padding: const EdgeInsets.all(20.0),
           child: GridView(
             shrinkWrap: true,
-            physics: const NeverScrollableScrollPhysics(), // Disable internal scrolling
+            physics:
+                const NeverScrollableScrollPhysics(), // Disable internal scrolling
             gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
               crossAxisCount: 2, // 1 column with two rows
-              childAspectRatio: 0.8, // Adjust this to fit image and form proportionally
+              childAspectRatio:
+                  0.8, // Adjust this to fit image and form proportionally
             ),
             children: [
               // First container for the sign-up image
@@ -398,27 +492,32 @@ class _SignUpLargeScreenState extends State<SignUpLargeScreen> {
                   const SizedBox(height: 10),
 
                   // Email section
-                  _buildTextField('Email Address', emailController, 'Enter your email address'),
+                  _buildTextField('Email Address', emailController,
+                      'Enter your email address'),
 
                   const SizedBox(height: 10),
 
                   // Full Name section
-                  _buildTextField('Full Name', _userNameController, 'Enter your full name'),
+                  _buildTextField(
+                      'Full Name', _userNameController, 'Enter your full name'),
 
                   const SizedBox(height: 10),
 
                   // Phone Number section
-                  _buildTextField('Phone Number', _phoneNumberController, 'Enter your Phone Number'),
+                  _buildTextField('Phone Number', _phoneNumberController,
+                      'Enter your Phone Number'),
 
                   const SizedBox(height: 10),
 
                   // Password section
-                  _buildPasswordField('Password', _passwordController, 'Enter your Password'),
+                  _buildPasswordField(
+                      'Password', _passwordController, 'Enter your Password'),
 
                   const SizedBox(height: 10),
 
                   // Confirm Password section
-                  _buildPasswordField('Confirm Password', _confirmPasswordController, 'Confirm your Password'),
+                  _buildPasswordField('Confirm Password',
+                      _confirmPasswordController, 'Confirm your Password'),
 
                   const SizedBox(height: 40),
 
@@ -431,28 +530,37 @@ class _SignUpLargeScreenState extends State<SignUpLargeScreen> {
                       final sm = ScaffoldMessenger.of(context);
 
                       bool isEmailValid(String email) {
-                        return RegExp(r'^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$').hasMatch(email);
+                        return RegExp(r'^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$')
+                            .hasMatch(email);
                       }
 
                       try {
-                        if (emailController.text.isEmpty && _phoneNumberController.text.isEmpty) {
+                        if (emailController.text.isEmpty &&
+                            _phoneNumberController.text.isEmpty) {
                           sm.showSnackBar(const SnackBar(
-                            content: Text('Please provide either an email or phone number'),
+                            content: Text(
+                                'Please provide either an email or phone number'),
                           ));
-                        } else if (emailController.text.isNotEmpty && !isEmailValid(emailController.text)) {
+                        } else if (emailController.text.isNotEmpty &&
+                            !isEmailValid(emailController.text)) {
                           sm.showSnackBar(const SnackBar(
                             content: Text('Please enter a valid email address'),
                           ));
                         } else if (_passwordController.text.length < 8) {
                           sm.showSnackBar(const SnackBar(
-                            content: Text('Password must be at least 8 characters long'),
+                            content: Text(
+                                'Password must be at least 8 characters long'),
                           ));
-                        } else if (!RegExp(r'[!@#%&*()_+=\-?/<>.,;:\[\]{}|`~]').hasMatch(_passwordController.text)) {
+                        } else if (!RegExp(r'[!@#%&*()_+=\-?/<>.,;:\[\]{}|`~]')
+                            .hasMatch(_passwordController.text)) {
                           sm.showSnackBar(const SnackBar(
-                            content: Text('Password must contain at least one special character'),
+                            content: Text(
+                                'Password must contain at least one special character'),
                           ));
-                        } else if (_passwordController.text != _confirmPasswordController.text) {
-                          sm.showSnackBar(const SnackBar(content: Text('Password does not match')));
+                        } else if (_passwordController.text !=
+                            _confirmPasswordController.text) {
+                          sm.showSnackBar(const SnackBar(
+                              content: Text('Password does not match')));
                         } else {
                           final authResponse = await supabase.auth.signUp(
                             email: emailController.text,
@@ -463,14 +571,17 @@ class _SignUpLargeScreenState extends State<SignUpLargeScreen> {
                             },
                           );
                           sm.showSnackBar(SnackBar(
-                            content: Text('Verify your account using OTP sent to :  ${authResponse.user!.email!}'),
+                            content: Text(
+                                'Verify your account using OTP sent to :  ${authResponse.user!.email!}'),
                           ));
-                          Navigator.of(context).push(MaterialPageRoute(builder: (context) {
+                          Navigator.of(context)
+                              .push(MaterialPageRoute(builder: (context) {
                             return OtpScreen(email: emailController.text);
                           }));
                         }
                       } catch (error) {
-                        sm.showSnackBar(SnackBar(content: Text('Error signing up: $error')));
+                        sm.showSnackBar(SnackBar(
+                            content: Text('Error signing up: $error')));
                       }
                     },
                     style: ElevatedButton.styleFrom(
@@ -484,14 +595,15 @@ class _SignUpLargeScreenState extends State<SignUpLargeScreen> {
                     ),
                     child: (submitted)
                         ? const CircularProgressIndicator(
-                      valueColor: AlwaysStoppedAnimation<Color>(Color(0xFFECD7F7)),
-                    )
+                            valueColor: AlwaysStoppedAnimation<Color>(
+                                Color(0xFFECD7F7)),
+                          )
                         : HomeUiHelper().customText(
-                      'Sign Up',
-                      24,
-                      FontWeight.w700,
-                      const Color(0xFFECD7F7),
-                    ),
+                            'Sign Up',
+                            24,
+                            FontWeight.w700,
+                            const Color(0xFFECD7F7),
+                          ),
                   ),
 
                   const SizedBox(height: 25),
@@ -533,7 +645,8 @@ class _SignUpLargeScreenState extends State<SignUpLargeScreen> {
   }
 
   // Helper method to build TextFields
-  Widget _buildTextField(String label, TextEditingController controller, String hintText) {
+  Widget _buildTextField(
+      String label, TextEditingController controller, String hintText) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -551,14 +664,13 @@ class _SignUpLargeScreenState extends State<SignUpLargeScreen> {
           child: TextField(
             controller: controller,
             decoration: InputDecoration(
-              filled: true,
-              fillColor: const Color(0xFFECD7F7),
-              hintText: hintText,
-              hintStyle: const TextStyle(
-                color: Color.fromARGB(255, 209, 190, 219),
-              ),
-              border: InputBorder.none
-            ),
+                filled: true,
+                fillColor: const Color(0xFFECD7F7),
+                hintText: hintText,
+                hintStyle: const TextStyle(
+                  color: Color.fromARGB(255, 209, 190, 219),
+                ),
+                border: InputBorder.none),
           ),
         ),
       ],
@@ -566,7 +678,8 @@ class _SignUpLargeScreenState extends State<SignUpLargeScreen> {
   }
 
   // Helper method to build password fields with visibility toggle
-  Widget _buildPasswordField(String label, TextEditingController controller, String hintText) {
+  Widget _buildPasswordField(
+      String label, TextEditingController controller, String hintText) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -585,29 +698,26 @@ class _SignUpLargeScreenState extends State<SignUpLargeScreen> {
             controller: controller,
             obscureText: !isPasswordVisible,
             decoration: InputDecoration(
-              suffixIcon: IconButton(
-                onPressed: () {
-                  setState(() {
-                    isPasswordVisible = !isPasswordVisible;
-                  });
-                },
-                icon: isPasswordVisible
-                    ? const Icon(Iconsax.eye)
-                    : const Icon(Iconsax.eye_slash),
-              ),
-              filled: true,
-              fillColor: const Color(0xFFECD7F7),
-              hintText: hintText,
-              hintStyle: const TextStyle(
-                color: Color.fromARGB(255, 209, 190, 219),
-              ),
-              border: InputBorder.none
-            ),
+                suffixIcon: IconButton(
+                  onPressed: () {
+                    setState(() {
+                      isPasswordVisible = !isPasswordVisible;
+                    });
+                  },
+                  icon: isPasswordVisible
+                      ? const Icon(Iconsax.eye)
+                      : const Icon(Iconsax.eye_slash),
+                ),
+                filled: true,
+                fillColor: const Color(0xFFECD7F7),
+                hintText: hintText,
+                hintStyle: const TextStyle(
+                  color: Color.fromARGB(255, 209, 190, 219),
+                ),
+                border: InputBorder.none),
           ),
         ),
       ],
     );
   }
 }
-
-
