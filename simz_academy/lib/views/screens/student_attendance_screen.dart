@@ -169,11 +169,13 @@ class _StudentAttendanceScreenState extends State<StudentAttendanceScreen> {
           const SizedBox(height: 20),
           Text(
             'Total Present Days: ${_attendanceModel.attendance.length}',
-            style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+            style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Color(
+                0xff2d6e39),),
           ),
           Text(
             'Total Absent Days: ${_attendanceModel.absentDates.length}',
-            style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+            style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Color(
+                0xffd93535),),
           ),
         ],
       ),
