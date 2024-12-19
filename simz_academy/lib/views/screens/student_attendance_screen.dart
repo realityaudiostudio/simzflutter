@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:iconsax/iconsax.dart';
+import 'package:simz_academy/views/UIHelper/home_ui_helper.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:simz_academy/models/attendance_model/student_attendance_model.dart';
 
@@ -6,7 +8,8 @@ class StudentAttendanceScreen extends StatefulWidget {
   const StudentAttendanceScreen({super.key});
 
   @override
-  State<StudentAttendanceScreen> createState() => _StudentAttendanceScreenState();
+  State<StudentAttendanceScreen> createState() =>
+      _StudentAttendanceScreenState();
 }
 
 class _StudentAttendanceScreenState extends State<StudentAttendanceScreen> {
@@ -28,21 +31,38 @@ class _StudentAttendanceScreenState extends State<StudentAttendanceScreen> {
 
   // Helper function to check if a day is in attendance
   bool _isDayPresent(DateTime day) {
-    return _attendanceModel.attendance.any((attendanceDay) =>
-        isSameDay(attendanceDay, day));
+    return _attendanceModel.attendance
+        .any((attendanceDay) => isSameDay(attendanceDay, day));
   }
+
   bool _isDayAbsent(DateTime day) {
-    return _attendanceModel.absentDates.any((attendanceDay) =>
-        isSameDay(attendanceDay, day));
+    return _attendanceModel.absentDates
+        .any((attendanceDay) => isSameDay(attendanceDay, day));
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Attendance Calendar'),
+        centerTitle: true,
+        leading: IconButton(
+          onPressed: () {
+            Navigator.pop(context);
+          },
+          icon: Icon(
+            Iconsax.arrow_square_left,
+            color: Color.fromRGBO(56, 15, 67, 1),
+          ),
+        ),
+        title: HomeUiHelper().customText(
+          'Attendance Calendar',
+          24,
+          FontWeight.w400,
+          Color(0xFF380F43),
+        ),
       ),
       body: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
           TableCalendar(
             firstDay: DateTime.utc(2020, 1, 1),
@@ -70,10 +90,39 @@ class _StudentAttendanceScreenState extends State<StudentAttendanceScreen> {
             onPageChanged: (focusedDay) {
               _focusedDay = focusedDay;
             },
+            headerStyle: HeaderStyle(
+              formatButtonVisible: false,
+              titleCentered: true,
+              titleTextStyle: const TextStyle(
+                color: Color(0xFF5B2867),
+                fontSize: 16,
+                fontWeight: FontWeight.w600,
+              ),
+              leftChevronIcon: Icon(
+                Iconsax.arrow_left_1,
+                color: Color(0xFF380F43),
+              ),
+              rightChevronIcon: Icon(
+                Iconsax.arrow_right_4,
+                color: Color(0xFF380F43),
+              ),
+            ),
+            daysOfWeekStyle: DaysOfWeekStyle(
+              weekdayStyle: const TextStyle(
+                color: Color(0xFFCD8CE6),
+                fontSize: 14,
+                fontWeight: FontWeight.w600,
+              ),
+              weekendStyle: const TextStyle(
+                color: Color(0xFFCD8CE6),
+                fontSize: 14,
+                fontWeight: FontWeight.w600,
+              ),
+            ),
             calendarStyle: CalendarStyle(
               // Customize the appearance of present days
-              defaultTextStyle: const TextStyle(color: Colors.black),
-              weekendTextStyle: const TextStyle(color: Colors.red),
+              defaultTextStyle: const TextStyle(color: Color(0xFFCD8CE6), fontSize: 14, fontWeight: FontWeight.w600),
+              weekendTextStyle: const TextStyle(color: Color(0xFFF7727B),fontSize: 14, fontWeight: FontWeight.w600),
               todayDecoration: BoxDecoration(
                 color: Colors.blue.shade200,
                 shape: BoxShape.circle,
@@ -99,7 +148,7 @@ class _StudentAttendanceScreenState extends State<StudentAttendanceScreen> {
                       ),
                     ),
                   );
-                }else if(_isDayAbsent(day)){
+                } else if (_isDayAbsent(day)) {
                   return Container(
                     decoration: BoxDecoration(
                       color: Colors.red.shade200,
