@@ -7,7 +7,7 @@ import 'package:simz_academy/controllers/constants/supabase_functions.dart';
 import 'package:simz_academy/views/screens/quiz_screen.dart';
 import 'package:simz_academy/views/screens/practise_screen.dart';
 import 'package:simz_academy/views/screens/sheet_screen.dart';
-import 'package:simz_academy/views/screens/student_attendance_screen.dart';
+//import 'package:simz_academy/views/screens/student_attendance_screen.dart';
 //import 'package:simz_academy/screens/syllabus_screen.dart';
 import 'package:simz_academy/views/screens/syllabus_select_screen.dart';
 import 'package:simz_academy/views/screens/track_lessons.dart';
@@ -218,9 +218,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                   ),
                                   IconButton(
                                     onPressed: () {
-                                      Navigator.of(context).push(MaterialPageRoute(builder: (context){
-                                        return StudentAttendanceScreen();
-                                      }));
+                                      // on pressed
                                     },
                                     icon: const Icon(
                                       Iconsax.music_playlist,
