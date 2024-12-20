@@ -3,6 +3,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:simz_academy/views/UIHelper/home_ui_helper.dart';
 import 'package:simz_academy/models/providers/syllabus_provider.dart';
 
+import '../../controllers/functions/show_alert.dart';
+
 /// A consumer widget that displays the syllabus data fetched from the [syllabusProvider].
 ///
 /// This widget uses the [ConsumerWidget] from Riverpod to watch the [syllabusProvider]
@@ -21,11 +23,6 @@ class SyllabusConsumer extends ConsumerWidget {
     final syllabusAsyncValue = ref.watch(syllabusProvider);
 
     return Scaffold(
-      appBar: AppBar(
-        automaticallyImplyLeading: false,
-        title: HomeUiHelper().customText('Keyboard Syllabus', 20,
-            FontWeight.w600, Color.fromRGBO(56, 15, 67, 1)),
-      ),
       body: Center(
         child: syllabusAsyncValue.when(
           /// When the data is available, display the syllabus list.
@@ -53,31 +50,7 @@ class SyllabusConsumer extends ConsumerWidget {
                           FontWeight.w700, Color.fromRGBO(27, 71, 113, 1)),
                       trailing: InkWell(
                         onTap: () {
-                          showDialog(
-                            context: context,
-                            builder: (context) {
-                              return AlertDialog(
-                                title: Text(
-                                  "This feature is in development",
-                                  maxLines: 3,
-                                ),
-                                actions: [
-                                  TextButton(
-                                    onPressed: () {
-                                      Navigator.pop(context);
-                                    },
-                                    child: Text(
-                                      'Close',
-                                      style: TextStyle(
-                                        color: Color.fromRGBO(56, 15, 67,
-                                            1), // Set the text color
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              );
-                            },
-                          );
+                          showAlertBox(context, '${s['url']}');  // showAlertBox is a custom function
                         },
                         child: HomeUiHelper().customText('Get', 20,
                             FontWeight.w600, Color.fromRGBO(27, 71, 113, 1)),

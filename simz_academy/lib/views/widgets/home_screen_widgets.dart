@@ -175,7 +175,7 @@ class _LiveNowState extends State<LiveNow> {
                       padding: const EdgeInsets.all(8.0),
                       child: Image.network(
                         'https://images.pexels.com/photos/191240/pexels-photo-191240.jpeg?cs=srgb&dl=pexels-ferarcosn-191240.jpg&fm=jpg',
-                        fit: BoxFit.fill,
+                        fit: BoxFit.cover,
                       ),
                     ),
                   ),

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
+//import 'package:simz_academy/controllers/functions/show_alert.dart';
+import 'package:simz_academy/models/consumers/syllabus_consumer.dart';
 
 import '../UIHelper/home_ui_helper.dart';
 import 'bottom_nav.dart';
@@ -9,7 +11,7 @@ class SyllabusSelectScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return  Scaffold(
+    return Scaffold(
       appBar: AppBar(
         title: Center(
             child: HomeUiHelper().customText('Syllabus', 24, FontWeight.w400,
@@ -33,6 +35,7 @@ class SyllabusSelectScreen extends StatelessWidget {
           ),
         ],
       ),
+      body: SyllabusConsumer(),
     );
   }
 }
