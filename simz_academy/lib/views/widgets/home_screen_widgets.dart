@@ -2,6 +2,8 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:iconsax/iconsax.dart';
+import 'package:intl/intl.dart';
+import 'package:simz_academy/models/class_model/classes_model.dart';
 import 'package:simz_academy/views/UIHelper/home_ui_helper.dart';
 import 'package:simz_academy/controllers/functions/show_alert.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -52,7 +54,6 @@ class SomethingToDo extends StatelessWidget {
   }
 }
 
-//Live Now
 class LiveNow extends StatefulWidget {
   const LiveNow({super.key});
 
@@ -61,40 +62,48 @@ class LiveNow extends StatefulWidget {
 }
 
 class _LiveNowState extends State<LiveNow> {
-  final livestream =
-      Supabase.instance.client.from('live').stream(primaryKey: ['id']);
+  ClassesModel classesModel = ClassesModel();
+  bool isLoading = true;
+
+  @override
+  void initState() {
+    super.initState();
+    loadClasses();
+  }
+
+  Future<void> loadClasses() async {
+    await classesModel.getClasses();
+    if (mounted) {
+      setState(() {
+        isLoading = false;
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
-    return StreamBuilder<List<Map<String, dynamic>>>(
-      stream: livestream,
-      builder: (context, snapshot) {
-        if (snapshot.connectionState == ConnectionState.waiting) {
-          //print('Stream is waiting for data...');
-          return const Center(child: CircularProgressIndicator());
-        }
-        if (snapshot.hasError) {
-          //print('Stream error: ${snapshot.error}');
-          return const Center(child: Text('Error loading events'));
-        }
-        if (!snapshot.hasData || snapshot.data!.isEmpty) {
-          //print('No data received from stream');
-          return const Center(child: Text('No Events'));
-        }
+    if (isLoading) {
+      return const Center(child: CircularProgressIndicator());
+    }
 
-        final liveEvents = snapshot.data!;
-        //print('Data received: $liveEvents');
+    if (classesModel.liveClasses.isEmpty) {
+      return const Center(child: Text('No Live Classes'));
+    }
 
-        // Safely access the first live event
-        final firstLiveEvent = liveEvents.isNotEmpty ? liveEvents[0] : null;
-        final liveName = firstLiveEvent?['live_class'] ?? 'No Class Name';
-        final livementor = firstLiveEvent?['mentor'] ?? 'No Mentor';
-        return Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Center(
+    return SizedBox(
+      height: 220,
+      child: ListView.builder(
+        scrollDirection: Axis.horizontal,
+        itemCount: classesModel.liveClasses.length,
+        itemBuilder: (context, index) {
+          final liveEvent = classesModel.liveClasses[index];
+          final liveName = liveEvent['live_class'] ?? 'No Class Name';
+          final livementor = liveEvent['mentor'] ?? 'No Mentor';
+
+          return Padding(
+            padding: const EdgeInsets.all(8.0),
             child: Container(
-              height: 200,
-              width: 400,
+              width: MediaQuery.of(context).size.width * 0.9,
               decoration: BoxDecoration(
                 border: Border.all(
                   color: const Color.fromRGBO(223, 183, 240, 1),
@@ -107,21 +116,27 @@ class _LiveNowState extends State<LiveNow> {
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
-                      const SizedBox(
-                        height: 10,
+                      const SizedBox(height: 10),
+                      HomeUiHelper().customText(
+                          '  Live Now',
+                          15,
+                          FontWeight.w600,
+                          const Color.fromRGBO(207, 35, 47, 1)
                       ),
-                      HomeUiHelper().customText('  Live Now', 15, FontWeight.w600,
-                          const Color.fromRGBO(207, 35, 47, 1)),
-                      const SizedBox(
-                        height: 15,
+                      const SizedBox(height: 15),
+                      HomeUiHelper().customText(
+                          "  $liveName",
+                          28,
+                          FontWeight.w600,
+                          const Color.fromRGBO(56, 15, 67, 1)
                       ),
-                      HomeUiHelper().customText("  $liveName", 28,
-                          FontWeight.w600, const Color.fromRGBO(56, 15, 67, 1)),
-                      const SizedBox(
-                        height: 5,
+                      const SizedBox(height: 5),
+                      HomeUiHelper().customText(
+                          "  $livementor",
+                          18,
+                          FontWeight.w400,
+                          const Color.fromRGBO(56, 15, 67, 1)
                       ),
-                      HomeUiHelper().customText("  $livementor", 18,
-                          FontWeight.w400, const Color.fromRGBO(56, 15, 67, 1)),
                       Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: SizedBox(
@@ -138,12 +153,8 @@ class _LiveNowState extends State<LiveNow> {
                               ),
                             ),
                             onPressed: () async {
-                              final response = await Supabase.instance.client
-                                  .from('live')
-                                  .select('meet_url')
-                                  .single();
-                              var data = response['meet_url'];
-                              showAlertBox(context, data);
+                              final meetUrl = liveEvent['meet_url'];
+                              showAlertBox(context, meetUrl);
                             },
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -175,22 +186,20 @@ class _LiveNowState extends State<LiveNow> {
                       padding: const EdgeInsets.all(8.0),
                       child: Image.network(
                         'https://images.pexels.com/photos/191240/pexels-photo-191240.jpeg?cs=srgb&dl=pexels-ferarcosn-191240.jpg&fm=jpg',
-                        fit: BoxFit.cover,
+                        fit: BoxFit.fill,
                       ),
                     ),
                   ),
                 ],
               ),
             ),
-          ),
-        );
-      },
+          );
+        },
+      ),
     );
   }
 }
-
 //Upcoming
-
 class Upcoming extends StatefulWidget {
   const Upcoming({super.key});
 
@@ -199,149 +208,156 @@ class Upcoming extends StatefulWidget {
 }
 
 class _UpcomingState extends State<Upcoming> {
-  final upcomingStream =
-      Supabase.instance.client.from('upcoming').stream(primaryKey: ['id']);
+  ClassesModel classesModel = ClassesModel();
+  bool isLoading = true;
+
+  @override
+  void initState() {
+    super.initState();
+    loadClasses();
+  }
+
+  Future<void> loadClasses() async {
+    await classesModel.getClasses();
+    if (mounted) {
+      setState(() {
+        isLoading = false;
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
-    return StreamBuilder<List<Map<String, dynamic>>>(
-      stream: upcomingStream,
-      builder: (context, snapshot) {
-        if (snapshot.connectionState == ConnectionState.waiting) {
-          return const Center(child: CircularProgressIndicator());
-        }
-        if (snapshot.hasError) {
-          return const Center(child: Text('Error loading events'));
-        }
-        if (!snapshot.hasData || snapshot.data!.isEmpty) {
-          return const Center(child: Text('No Events'));
-        }
-        final upcomingEvents = snapshot.data!;
-        final firstUpcomingEvent =
-            upcomingEvents.isNotEmpty ? upcomingEvents[0] : null;
-        final upcomingClass =
-            firstUpcomingEvent?['upcoming_class'] ?? 'No Class Name';
-        final upcomingMentor =
-            firstUpcomingEvent?['upcoming_mentor'] ?? 'No Mentor';
-        final upcomingTime = firstUpcomingEvent?['upcoming_time'] ?? 'No Time';
-        final upcomingDate = firstUpcomingEvent?['upcoming_date'] ?? 'No Date';
-        // print(
-        //   'Data received:'
-        //   'Class: $upcomingClass'
-        //   'Mentor: $upcomingMentor'
-        //   'Time: $upcomingTime'
-        //   'Date: $upcomingDate'
-        // );
-        return Center(
-          child: InkWell(
-            onTap: ()async{
-              print(upcomingEvents);
-              String dateTimeString = '$upcomingDate $upcomingTime';
-              try {
-                //parse to datetime
+    if (isLoading) {
+      return const Center(child: CircularProgressIndicator());
+    }
 
-                DateTime classTime = DateTime.parse(dateTimeString);
-                debugPrint('Parsed DateTime: $classTime');
+    if (classesModel.upcomingClasses.isEmpty) {
+      return const Center(child: Text('No Upcoming Classes'));
+    }
 
-                //convert to milliseconds
-                int timeInMillis = classTime.millisecondsSinceEpoch;
-                final  androidUrl = "content://com.android.calendar/time/$timeInMillis";
-                showAlertBox(context, androidUrl);
-              }catch(e){
-                debugPrint(e.toString());
-              }
-            },
-            child: Container(
-              width: 350,
-              height: 350,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(25),
-              ),
-              child: Stack(
-                children: <Widget>[
-                  Image.asset('lib/assets/images/keyboard playing music.png'),
-                  Positioned(
-                    left: 30,
-                    top: 30,
-                    child: Container(
-                      width: 60,
-                      height: 30,
-                      decoration: BoxDecoration(
-                          color: const Color.fromRGBO(251, 246, 253, 1),
-                          borderRadius: BorderRadius.circular(16)),
-                      child: Center(
-                          child: HomeUiHelper().customText(
-                              'Online',
-                              14,
-                              FontWeight.w600,
-                              const Color.fromRGBO(126, 30, 37, 1))),
-                    ),
+    return SizedBox(
+      height: 380, // Increased height to accommodate cards
+      child: ListView.builder(
+        scrollDirection: Axis.horizontal,
+        itemCount: classesModel.upcomingClasses.length,
+        itemBuilder: (context, index) {
+          final upcomingEvent = classesModel.upcomingClasses[index];
+          final upcomingClass = upcomingEvent['live_class'] ?? 'No Class Name';
+          final upcomingMentor = upcomingEvent['mentor'] ?? 'No Mentor';
+          final dateTime = DateTime.parse(upcomingEvent['day_of_that']);
+          final upcomingDate = DateFormat('yyyy-MM-dd').format(dateTime);
+          final upcomingTime = DateFormat('HH:mm').format(dateTime);
+
+          return Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 8.0),
+            child: Center(
+              child: InkWell(
+                onTap: () async {
+                  try {
+                    //convert to milliseconds
+                    int timeInMillis = dateTime.millisecondsSinceEpoch;
+                    final androidUrl = "content://com.android.calendar/time/$timeInMillis";
+                    showAlertBox(context, androidUrl);
+                  } catch(e) {
+                    debugPrint(e.toString());
+                  }
+                },
+                child: Container(
+                  width: 350,
+                  height: 350,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(25),
                   ),
-                  Positioned(
-                    top: 150,
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: <Widget>[
-                          HomeUiHelper().customText(
-                            upcomingClass,
-                            28,
-                            FontWeight.w600,
-                            const Color.fromRGBO(251, 246, 253, 1),
+                  child: Stack(
+                    children: <Widget>[
+                      Image.asset('lib/assets/images/keyboard playing music.png'),
+                      Positioned(
+                        left: 30,
+                        top: 30,
+                        child: Container(
+                          width: 60,
+                          height: 30,
+                          decoration: BoxDecoration(
+                              color: const Color.fromRGBO(251, 246, 253, 1),
+                              borderRadius: BorderRadius.circular(16)
                           ),
-                          HomeUiHelper().customText(
-                            upcomingMentor,
-                            18,
-                            FontWeight.w400,
-                            const Color.fromRGBO(251, 246, 253, 1),
+                          child: Center(
+                              child: HomeUiHelper().customText(
+                                  'Online',
+                                  14,
+                                  FontWeight.w600,
+                                  const Color.fromRGBO(126, 30, 37, 1)
+                              )
                           ),
-                          Row(
-                            children: [
-                              const Icon(
-                                Iconsax.calendar,
-                                color: Color.fromRGBO(251, 246, 253, 1),
-                                size: 16,
-                              ),
-                              const SizedBox(width: 5),
-                              HomeUiHelper().customText(
-                                upcomingDate,
-                                16,
-                                FontWeight.w400,
-                                const Color.fromRGBO(251, 246, 253, 1),
-                              ),
-                            ],
-                          ),
-                          Row(
-                            children: [
-                              const Icon(
-                                Iconsax.clock,
-                                color: Color.fromRGBO(251, 246, 253, 1),
-                                size: 16,
-                              ),
-                              const SizedBox(width: 5),
-                              HomeUiHelper().customText(
-                                upcomingTime,
-                                16,
-                                FontWeight.w400,
-                                const Color.fromRGBO(251, 246, 253, 1),
-                              ),
-                            ],
-                          ),
-                        ],
+                        ),
                       ),
-                    ),
+                      Positioned(
+                        top: 150,
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: <Widget>[
+                              HomeUiHelper().customText(
+                                upcomingClass,
+                                28,
+                                FontWeight.w600,
+                                const Color.fromRGBO(251, 246, 253, 1),
+                              ),
+                              HomeUiHelper().customText(
+                                upcomingMentor,
+                                18,
+                                FontWeight.w400,
+                                const Color.fromRGBO(251, 246, 253, 1),
+                              ),
+                              Row(
+                                children: [
+                                  const Icon(
+                                    Iconsax.calendar,
+                                    color: Color.fromRGBO(251, 246, 253, 1),
+                                    size: 16,
+                                  ),
+                                  const SizedBox(width: 5),
+                                  HomeUiHelper().customText(
+                                    upcomingDate,
+                                    16,
+                                    FontWeight.w400,
+                                    const Color.fromRGBO(251, 246, 253, 1),
+                                  ),
+                                ],
+                              ),
+                              Row(
+                                children: [
+                                  const Icon(
+                                    Iconsax.clock,
+                                    color: Color.fromRGBO(251, 246, 253, 1),
+                                    size: 16,
+                                  ),
+                                  const SizedBox(width: 5),
+                                  HomeUiHelper().customText(
+                                    upcomingTime,
+                                    16,
+                                    FontWeight.w400,
+                                    const Color.fromRGBO(251, 246, 253, 1),
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
-                ],
+                ),
               ),
             ),
-          ),
-        );
-      },
+          );
+        },
+      ),
     );
   }
 }
-
 class Appreciations extends StatefulWidget {
   const Appreciations({super.key});
 
