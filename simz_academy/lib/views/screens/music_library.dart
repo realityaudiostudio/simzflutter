@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
+import 'package:simz_academy/controllers/functions/show_alert.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import '../../controllers/MediaPlayers/video_player.dart';
 import '../UIHelper/home_ui_helper.dart';
@@ -55,7 +56,6 @@ class _MusicLibraryScreenState extends State<MusicLibraryScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-
         leading: IconButton(
           icon: const Icon(Iconsax.arrow_square_left,
               color: Color.fromRGBO(56, 15, 67, 1)),
@@ -69,7 +69,7 @@ class _MusicLibraryScreenState extends State<MusicLibraryScreen> {
         title: Center(
             child: HomeUiHelper().customText('Recorded Classes', 24,
                 FontWeight.w400, Color.fromRGBO(56, 15, 67, 1))),
-        actions:const  [
+        actions: const [
           SizedBox(
             width: 60,
             height: 40,
@@ -83,7 +83,8 @@ class _MusicLibraryScreenState extends State<MusicLibraryScreen> {
           padding: const EdgeInsets.all(15.0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.center,  // Centering the children
+            mainAxisAlignment:
+                MainAxisAlignment.center, // Centering the children
             children: <Widget>[
               // Search TextField
               Padding(
@@ -92,8 +93,10 @@ class _MusicLibraryScreenState extends State<MusicLibraryScreen> {
                   children: [
                     Container(
                       decoration: BoxDecoration(
-                        color: const Color.fromRGBO(246, 235, 252, 1), // Background color
-                        borderRadius: BorderRadius.circular(17), // Border radius
+                        color: const Color.fromRGBO(
+                            246, 235, 252, 1), // Background color
+                        borderRadius:
+                            BorderRadius.circular(17), // Border radius
                       ),
                       child: TextField(
                         controller: _searchController,
@@ -107,11 +110,11 @@ class _MusicLibraryScreenState extends State<MusicLibraryScreen> {
                             color: Color.fromRGBO(205, 140, 230, 1),
                           ),
                           border: InputBorder.none, // Removes the border
-                          contentPadding: const EdgeInsets.symmetric(vertical: 14, horizontal: 16),
+                          contentPadding: const EdgeInsets.symmetric(
+                              vertical: 14, horizontal: 16),
                         ),
                       ),
                     ),
-
                     Padding(
                       padding: const EdgeInsets.only(top: 10.0, bottom: 10.0),
                       child: Container(
@@ -156,8 +159,8 @@ class _MusicLibraryScreenState extends State<MusicLibraryScreen> {
                     ),
                     Align(
                       alignment: Alignment.topLeft,
-                      child: HomeUiHelper().customText(
-                          'Play and Learn', 20, FontWeight.w600, Color(0xFF380F43)),
+                      child: HomeUiHelper().customText('Play and Learn', 20,
+                          FontWeight.w600, Color(0xFF380F43)),
                     ),
                     SizedBox(
                       height: 5,
@@ -199,17 +202,24 @@ class _MusicLibraryScreenState extends State<MusicLibraryScreen> {
                           alignment: Alignment.center,
                           child: InkWell(
                             onTap: () {
-                              Navigator.of(context).push(MaterialPageRoute(
-                                  builder: (context) {
-                                    return VideoPlayerScreen(
-                                      videoUrl: videoUrl,
-                                      videoDesc: videoDescription,
-                                    );
-                                  }));
+                              if(videoUrl.contains('youtube.com') || videoUrl.contains('youtu.be')){
+                                showAlertBox(context, videoUrl);
+                              }else{
+                                Navigator.of(context).push(
+                                  MaterialPageRoute(
+                                    builder: (context) {
+                                      return VideoPlayerScreen(
+                                        videoUrl: videoUrl,
+                                        videoDesc: videoDescription,
+                                      );
+                                    },
+                                  ),
+                                );
+                              }
                             },
                             child: Padding(
                               padding:
-                              const EdgeInsets.only(top: 8.0, bottom: 8.0),
+                                  const EdgeInsets.only(top: 8.0, bottom: 8.0),
                               child: Stack(
                                 children: [
                                   // Video Thumbnail
@@ -222,7 +232,8 @@ class _MusicLibraryScreenState extends State<MusicLibraryScreen> {
                                       child: Image.network(
                                         videoCover,
                                         fit: BoxFit.cover,
-                                        errorBuilder: (context, error, stackTrace) {
+                                        errorBuilder:
+                                            (context, error, stackTrace) {
                                           return const Center(
                                               child: Icon(Icons.error));
                                         },
@@ -248,7 +259,7 @@ class _MusicLibraryScreenState extends State<MusicLibraryScreen> {
                                             left: 10.0, top: 10.0),
                                         child: Column(
                                           crossAxisAlignment:
-                                          CrossAxisAlignment.start,
+                                              CrossAxisAlignment.start,
                                           children: <Widget>[
                                             Text(
                                               videoName,
