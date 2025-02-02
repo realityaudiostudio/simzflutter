@@ -11,6 +11,7 @@ import 'package:simz_academy/controllers/constants/supabase_functions.dart';
 import 'package:simz_academy/views/screens/bottom_nav.dart';
 import 'package:simz_academy/views/screens/edit_profile.dart';
 import 'package:simz_academy/views/screens/login_screen.dart';
+import 'package:simz_academy/views/screens/student_attendance_screen.dart';
 import 'package:simz_academy/views/widgets/common_widgets.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -241,9 +242,31 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 ),
                 SizedBox(height: 4.0),
                 Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     //SizedBox(width: 16.0),
+                    TextButton(
+                      onPressed: () {
+                        Navigator.of(context).push(MaterialPageRoute(builder: (context){
+                          return StudentAttendanceScreen();
+                        }));
+                      },
+                      child: Row(
+                        children: [
+                          HomeUiHelper().customText(
+                            'View Attendance  ',
+                            16,
+                            FontWeight.w400,
+                            Color.fromRGBO(56, 15, 67, 1),
+                          ),
+                          Icon(
+                            Iconsax.task_square,
+                            color: Color.fromRGBO(56, 15, 67, 1),
+                            size: 16,
+                          ),
+                        ],
+                      ),
+                    ),
                     TextButton(
                       onPressed: () {
                         Navigator.of(context).push(
