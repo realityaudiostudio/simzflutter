@@ -376,7 +376,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           ],
                         ),
                         HomeUiHelper().customText(
-                            'v1.0.2024',
+                            'v1.0.0',
                             16,
                             FontWeight.w300,
                             const Color.fromRGBO(105, 42, 123, 1)),

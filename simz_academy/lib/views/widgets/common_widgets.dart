@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:simz_academy/views/UIHelper/home_ui_helper.dart';
 
+import '../screens/mmode.dart';
+
 class FooterWidget extends StatelessWidget {
   const FooterWidget({super.key});
 
@@ -34,8 +36,15 @@ class FooterWidget extends StatelessWidget {
                             const Color.fromRGBO(27, 60, 95, 1)),
                       ],
                     ),
-                    HomeUiHelper().customText('v1.0.2024', 16, FontWeight.w300,
-                        const Color.fromRGBO(105, 42, 123, 1)),
+                    InkWell(
+                      onLongPress: (){
+                        Navigator.push(context, MaterialPageRoute(builder: (context){
+                          return MMode();
+                        },),);
+                      },
+                      child: HomeUiHelper().customText('v1.0.0', 16, FontWeight.w300,
+                          const Color.fromRGBO(105, 42, 123, 1)),
+                    ),
                     HomeUiHelper().customText(
                         'Developed By Team AJS Web Creatives',
                         16,
