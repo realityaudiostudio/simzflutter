@@ -24,6 +24,8 @@ class ProfileScreen extends StatefulWidget {
 }
 
 class _ProfileScreenState extends State<ProfileScreen> {
+  final SupabaseClient supabase = Supabase.instance.client;
+  List<String> courses = [];
   final BadgeModel _badgeModel = BadgeModel();
   late CertificateModel _certificateModel;
   bool _show = false;
@@ -32,11 +34,27 @@ class _ProfileScreenState extends State<ProfileScreen> {
     super.initState();
     _certificateModel = CertificateModel(userId: getUserId());
     _fetchData();
+    fetchCourses();
     Future.delayed(Duration(milliseconds: 750), () {
       setState(() {
         _show = true;
       });
     });
+  }
+
+  Future<void> fetchCourses() async {
+    final userId = getCurrentUserId(context); // Replace with actual user ID
+    final response = await supabase
+        .from('student_details')
+        .select('courses')
+        .eq('user_id', userId)
+        .single();
+
+    if (response['courses'] != null) {
+      setState(() {
+        courses = List<String>.from(response['courses']);
+      });
+    }
   }
 
   Future<void> _fetchData() async {
@@ -293,77 +311,59 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     ),
                   ],
                 ),
-                // SizedBox(height: 8.0),
-                // HomeUiHelper().customText("Your Courses", 20, FontWeight.w600,
-                //     Color.fromRGBO(56, 15, 67, 1)),
-                // SizedBox(height: 16.0),
-                // SizedBox(
-                //   height:
-                //       120.0, // Specify a fixed height for the CustomScrollView
-                //   child: CustomScrollView(
-                //     scrollDirection: Axis.horizontal,
-                //     slivers: [
-                //       SliverList(
-                //         delegate: SliverChildBuilderDelegate(
-                //           (context, index) {
-                //             return SizedBox(
-                //               width: 363.0,
-                //               child: Container(
-                //                 margin: EdgeInsets.only(right: 16.0),
-                //                 width: 412.0,
-                //                 height: 200.0,
-                //                 decoration: BoxDecoration(
-                //                   borderRadius: BorderRadius.circular(16.0),
-                //                   color: Color.fromRGBO(196, 220, 243, 1),
-                //                 ),
-                //                 child: Row(
-                //                   mainAxisAlignment:
-                //                       MainAxisAlignment.spaceAround,
-                //                   children: [
-                //                     Padding(
-                //                       padding: const EdgeInsets.all(8.0),
-                //                       child: Column(
-                //                         crossAxisAlignment:
-                //                             CrossAxisAlignment.start,
-                //                         children: [
-                //                           SizedBox(
-                //                             width: 230.0,
-                //                             child: Text(
-                //                               'Scales and Theory of KeyBoard',
-                //                               style: TextStyle(
-                //                                 fontSize: 24,
-                //                                 fontWeight: FontWeight.w600,
-                //                                 color: Color.fromRGBO(
-                //                                     27, 60, 95, 1),
-                //                               ),
-                //                               maxLines: 3,
-                //                               overflow: TextOverflow.ellipsis,
-                //                             ),
-                //                           ),
-                //                           HomeUiHelper().customText(
-                //                               '12 Lessons',
-                //                               20,
-                //                               FontWeight.w300,
-                //                               Color.fromRGBO(27, 60, 95, 1)),
-                //                         ],
-                //                       ),
-                //                     ),
-                //                     Image.asset(
-                //                       'lib/assets/images/sheets.png',
-                //                       width: 100.0,
-                //                       height: 100.0,
-                //                     ),
-                //                   ],
-                //                 ),
-                //               ),
-                //             );
-                //           },
-                //           childCount: 3,
-                //         ),
-                //       ),
-                //     ],
-                //   ),
-                // ),
+                SizedBox(height: 8.0),
+                HomeUiHelper().customText("Your Courses", 20, FontWeight.w600,
+                    Color.fromRGBO(56, 15, 67, 1)),
+                SizedBox(height: 16.0),
+                SizedBox(
+                  height: 120.0, // Fixed height for horizontal scrolling
+                  child: CustomScrollView(
+                    scrollDirection: Axis.horizontal,
+                    slivers: [
+                      SliverList(
+                        delegate: SliverChildBuilderDelegate(
+                              (context, index) {
+                            return SizedBox(
+                              width: 363.0,
+                              child: Container(
+                                margin: EdgeInsets.only(right: 16.0),
+                                width: 412.0,
+                                height: 200.0,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(16.0),
+                                  color: Color.fromRGBO(196, 220, 243, 1),
+                                ),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                  children: [
+                                    Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: SizedBox(
+                                        width: 230.0,
+                                        child: HomeUiHelper().customText(
+                                          courses[index],
+                                          26,
+                                          FontWeight.w600,
+                                          Color.fromRGBO(56, 15, 67, 1),
+                                        ),
+                                      ),
+                                    ),
+                                    Image.asset(
+                                      'lib/assets/images/sheets.png',
+                                      width: 100.0,
+                                      height: 100.0,
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            );
+                          },
+                          childCount: courses.length,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
 
 // Badges gained section below  vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
 
