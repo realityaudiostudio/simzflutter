@@ -293,77 +293,77 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     ),
                   ],
                 ),
-                SizedBox(height: 8.0),
-                HomeUiHelper().customText("Your Courses", 20, FontWeight.w600,
-                    Color.fromRGBO(56, 15, 67, 1)),
-                SizedBox(height: 16.0),
-                SizedBox(
-                  height:
-                      120.0, // Specify a fixed height for the CustomScrollView
-                  child: CustomScrollView(
-                    scrollDirection: Axis.horizontal,
-                    slivers: [
-                      SliverList(
-                        delegate: SliverChildBuilderDelegate(
-                          (context, index) {
-                            return SizedBox(
-                              width: 363.0,
-                              child: Container(
-                                margin: EdgeInsets.only(right: 16.0),
-                                width: 412.0,
-                                height: 200.0,
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(16.0),
-                                  color: Color.fromRGBO(196, 220, 243, 1),
-                                ),
-                                child: Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceAround,
-                                  children: [
-                                    Padding(
-                                      padding: const EdgeInsets.all(8.0),
-                                      child: Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          SizedBox(
-                                            width: 230.0,
-                                            child: Text(
-                                              'Scales and Theory of KeyBoard',
-                                              style: TextStyle(
-                                                fontSize: 24,
-                                                fontWeight: FontWeight.w600,
-                                                color: Color.fromRGBO(
-                                                    27, 60, 95, 1),
-                                              ),
-                                              maxLines: 3,
-                                              overflow: TextOverflow.ellipsis,
-                                            ),
-                                          ),
-                                          HomeUiHelper().customText(
-                                              '12 Lessons',
-                                              20,
-                                              FontWeight.w300,
-                                              Color.fromRGBO(27, 60, 95, 1)),
-                                        ],
-                                      ),
-                                    ),
-                                    Image.asset(
-                                      'lib/assets/images/sheets.png',
-                                      width: 100.0,
-                                      height: 100.0,
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            );
-                          },
-                          childCount: 3,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
+                // SizedBox(height: 8.0),
+                // HomeUiHelper().customText("Your Courses", 20, FontWeight.w600,
+                //     Color.fromRGBO(56, 15, 67, 1)),
+                // SizedBox(height: 16.0),
+                // SizedBox(
+                //   height:
+                //       120.0, // Specify a fixed height for the CustomScrollView
+                //   child: CustomScrollView(
+                //     scrollDirection: Axis.horizontal,
+                //     slivers: [
+                //       SliverList(
+                //         delegate: SliverChildBuilderDelegate(
+                //           (context, index) {
+                //             return SizedBox(
+                //               width: 363.0,
+                //               child: Container(
+                //                 margin: EdgeInsets.only(right: 16.0),
+                //                 width: 412.0,
+                //                 height: 200.0,
+                //                 decoration: BoxDecoration(
+                //                   borderRadius: BorderRadius.circular(16.0),
+                //                   color: Color.fromRGBO(196, 220, 243, 1),
+                //                 ),
+                //                 child: Row(
+                //                   mainAxisAlignment:
+                //                       MainAxisAlignment.spaceAround,
+                //                   children: [
+                //                     Padding(
+                //                       padding: const EdgeInsets.all(8.0),
+                //                       child: Column(
+                //                         crossAxisAlignment:
+                //                             CrossAxisAlignment.start,
+                //                         children: [
+                //                           SizedBox(
+                //                             width: 230.0,
+                //                             child: Text(
+                //                               'Scales and Theory of KeyBoard',
+                //                               style: TextStyle(
+                //                                 fontSize: 24,
+                //                                 fontWeight: FontWeight.w600,
+                //                                 color: Color.fromRGBO(
+                //                                     27, 60, 95, 1),
+                //                               ),
+                //                               maxLines: 3,
+                //                               overflow: TextOverflow.ellipsis,
+                //                             ),
+                //                           ),
+                //                           HomeUiHelper().customText(
+                //                               '12 Lessons',
+                //                               20,
+                //                               FontWeight.w300,
+                //                               Color.fromRGBO(27, 60, 95, 1)),
+                //                         ],
+                //                       ),
+                //                     ),
+                //                     Image.asset(
+                //                       'lib/assets/images/sheets.png',
+                //                       width: 100.0,
+                //                       height: 100.0,
+                //                     ),
+                //                   ],
+                //                 ),
+                //               ),
+                //             );
+                //           },
+                //           childCount: 3,
+                //         ),
+                //       ),
+                //     ],
+                //   ),
+                // ),
 
 // Badges gained section below  vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
 
@@ -613,7 +613,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             FontWeight.w400,
                             Color(0xFF380F43))), //email
                     HomeUiHelper().customText(
-                        'Address : 123 Learning Lane,\nKnowledge city',
+                        'Address : Punna complex,\nChungathara P O\nNilambur, Kerala',
                         16,
                         FontWeight.w400,
                         Color(0xFF380F43)), //address
