@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
+import 'package:simz_academy/models/student_model/course_model.dart';
 import 'package:simz_academy/models/student_model/profile_model.dart';
 import 'package:simz_academy/views/UIHelper/home_ui_helper.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -15,14 +16,31 @@ class EditProfile extends StatefulWidget {
 
 class _EditProfileState extends State<EditProfile> {
   final ProfileModel _profileModel = ProfileModel();
+  final CourseModel _courseModel = CourseModel();
   final yearOfAdmissionController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   bool setVisible = true;
   bool setPassword = false;
+  List<bool> _selectedCourses = [];
   @override
   void initState() {
     super.initState();
     getYearOfAdmission();
+    _initializeCourses();
+  }
+
+  Future<void> _initializeCourses() async {
+    await _courseModel.getCourseNames();
+    await _courseModel.getEnrolledCourseNames();
+    setState(() {
+      _selectedCourses =
+          List<bool>.filled(_courseModel.courseName.length, false);
+      for (int i = 0; i < _courseModel.courseName.length; i++) {
+        if (_courseModel.enrolledCourses.contains(_courseModel.courseName[i])) {
+          _selectedCourses[i] = true;
+        }
+      }
+    });
   }
 
   Future<void> getYearOfAdmission() async {
@@ -40,6 +58,9 @@ class _EditProfileState extends State<EditProfile> {
 
   @override
   Widget build(BuildContext context) {
+    final screenWidth = MediaQuery.of(context).size.width;
+    final itemWidth = screenWidth / 2 - 16;
+
     TextEditingController nameController =
         TextEditingController(text: _profileModel.name);
     // TextEditingController emailController =
@@ -246,9 +267,150 @@ class _EditProfileState extends State<EditProfile> {
                           Color(0xFF380F43),
                         ),
                 ),
+
                 SizedBox(
                   height: 20,
                 ),
+                // Courses
+                Align(
+                  alignment: Alignment.centerLeft,
+                  child: HomeUiHelper().customText(
+                    'Courses',
+                    16,
+                    FontWeight.w600,
+                    Color(0xFF380F43),
+                  ),
+                ),
+                SizedBox(
+                  height: 5,
+                ),
+                (_courseModel.courseName.isEmpty)
+                    ? HomeUiHelper().customText(
+                        'No courses available',
+                        16,
+                        FontWeight.w600,
+                        Color(0xFF380F43),
+                      )
+                    : GridView.builder(
+                        shrinkWrap: true,
+                        physics: NeverScrollableScrollPhysics(),
+                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount:
+                              screenWidth < 600 ? 1 : 2, // Maximum 2 columns
+                          childAspectRatio: 3, // Adjust height dynamically
+                        ),
+                        itemCount: _courseModel.courseName.length,
+                        itemBuilder: (context, index) {
+                          return Card(
+                            color: Color(0xFFF6EBFC),
+                            elevation: 2,
+                            margin: const EdgeInsets.all(8.0),
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Row(
+                                children: [
+                                  Checkbox(
+                                    value: _selectedCourses[index],
+                                    onChanged: (bool? value) {
+                                      setState(() {
+                                        _selectedCourses[index] =
+                                            value ?? false;
+                                      });
+                                    },
+                                  ),
+                                  Expanded(
+                                    child: Text(
+                                      _courseModel.courseName[index][0]
+                                              .toUpperCase() +
+                                          _courseModel.courseName[index]
+                                              .substring(1),
+                                      style: const TextStyle(fontSize: 16),
+                                      overflow: TextOverflow.ellipsis,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          );
+                        },
+                      ),
+                SizedBox(
+                  height: 15,
+                ),
+
+                TextButton(
+                  onPressed: () {
+                    showDialog(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return AlertDialog(
+                          title: HomeUiHelper().customText(
+                            'Update Courses',
+                            20,
+                            FontWeight.w600,
+                            Color(0xFF380F43),
+                          ),
+                          content: HomeUiHelper().customText(
+                            'Are you sure you want to update your selected courses?',
+                            16,
+                            FontWeight.w400,
+                            Color(0xFF893CA2),
+                          ),
+                          actions: [
+                            TextButton(
+                              onPressed: () {
+                                Navigator.of(context).pop(); // Close the dialog
+                              },
+                              child: HomeUiHelper().customText(
+                                'Cancel',
+                                16,
+                                FontWeight.w600,
+                                Color(0xFF380F43),
+                              ),
+                            ),
+                            ElevatedButton(
+                              style: ButtonStyle(
+                                backgroundColor: WidgetStateProperty.all(
+                                  Color(0xFF893CA2),
+                                ),
+                                padding: WidgetStateProperty.all(
+                                  EdgeInsets.symmetric(
+                                      vertical: 10, horizontal: 20),
+                                ),
+                                shape: WidgetStateProperty.all(
+                                  RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(10),
+                                  ),
+                                ),
+                              ),
+                              onPressed: () {
+                                Navigator.of(context).pop(); // Close the dialog
+                                saveSelectedCourses(); // Call the method
+                              },
+                              child: HomeUiHelper().customText(
+                                'Submit',
+                                16,
+                                FontWeight.w600,
+                                Color(0xFFECD7F7),
+                              ),
+                            ),
+                          ],
+                        );
+                      },
+                    );
+                  },
+                  child: HomeUiHelper().customText(
+                    'Update Courses',
+                    16,
+                    FontWeight.w400,
+                    Color(0xFF380F43),
+                  ),
+                ),
+
+                SizedBox(
+                  height: 20,
+                ),
+
                 SizedBox(
                   width: double.infinity,
                   child: ElevatedButton(
@@ -276,13 +438,62 @@ class _EditProfileState extends State<EditProfile> {
                       Color(0xFFECD7F7),
                     ),
                   ),
-                )
+                ),
               ],
             ),
           ),
         ),
       ),
     );
+  }
+
+  void saveSelectedCourses() async {
+    final userId = getUserId();
+    try {
+      // Filter selected courses
+      List<String> selectedCourseNames = [];
+      for (int i = 0; i < _selectedCourses.length; i++) {
+        if (_selectedCourses[i]) {
+          selectedCourseNames.add(_courseModel.courseName[i]);
+        }
+      }
+
+      // Update the selected courses in the 'student_details' table
+      await Supabase.instance.client
+          .from('student_details')
+          .update({'courses': selectedCourseNames}).eq('user_id', userId);
+
+      // Show success snackbar
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          elevation: 0,
+          behavior: SnackBarBehavior.floating,
+          backgroundColor: Colors.transparent,
+          content: AwesomeSnackbarContent(
+            title: 'Courses Saved Successfully',
+            message: 'Your selected courses have been updated.',
+            contentType: ContentType.success,
+          ),
+          duration: Duration(seconds: 3),
+        ),
+      );
+    } catch (e) {
+      // Log the error and show error snackbar
+      debugPrint(e.toString());
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          elevation: 0,
+          behavior: SnackBarBehavior.floating,
+          backgroundColor: Colors.transparent,
+          content: AwesomeSnackbarContent(
+            title: 'Save Failed',
+            message: 'Unable to save selected courses. Try again later.',
+            contentType: ContentType.failure,
+          ),
+          duration: Duration(seconds: 3),
+        ),
+      );
+    }
   }
 
   void updateProfile(String password, String name, String phone) async {
@@ -296,11 +507,11 @@ class _EditProfileState extends State<EditProfile> {
       // Update the password if the user requested it
 
       if (setPassword && password.isNotEmpty) {
-        if(conditions.isEmpty){
+        if (conditions.isEmpty) {
           await Supabase.instance.client.auth.updateUser(
             UserAttributes(password: password),
           );
-        }else{
+        } else {
           throw AuthApiException(conditions.toString());
         }
       }
