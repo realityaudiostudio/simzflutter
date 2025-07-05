@@ -341,7 +341,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                       child: SizedBox(
                                         width: 230.0,
                                         child: HomeUiHelper().customText(
-                                          courses[index],
+                                          courses[index][0].toUpperCase() + courses[index].substring(1),
                                           26,
                                           FontWeight.w600,
                                           Color.fromRGBO(56, 15, 67, 1),

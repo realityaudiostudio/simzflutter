@@ -12,10 +12,10 @@ class ClassesModel {
     // Get user's courses
     final response = await Supabase.instance.client
         .from('student_details')
-        .select('courses')
+        .select('batch')
         .eq('user_id', userId);
 
-    final List<dynamic> coursesDynamic = response[0]['courses'];
+    final List<dynamic> coursesDynamic = response[0]['batch'];
     courses = coursesDynamic.map((course) => course.toString()).toList();
     debugPrint('User courses: ${courses.toString()}');
 
